@@ -7,7 +7,8 @@ const formSchema = new Schema({
   _id: Schema.Types.ObjectId,
   title: String,
   description: String,
-  study: {type: Schema.Types.ObjectId,ref: 'Study'}
+  study: {type: Schema.Types.ObjectId,ref: 'Study'},
+  questions:[{type: Schema.Types.ObjectId,ref: 'Question'}]
 },
  {
   timestamps: true,
