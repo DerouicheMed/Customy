@@ -22,7 +22,8 @@ const FormFirstStep = () => {
   };
 
   return (
-    <React.Fragment>
+    <div className="row">
+      <div className="col-md-12">
       <div className="form-group">
         <label>
           To create a form please start by entering the form title and
@@ -50,7 +51,8 @@ const FormFirstStep = () => {
         ></textarea>
       </div>
       <button onClick={onClick}>click here</button>
-    </React.Fragment>
+      </div>
+    </div>
   );
 };
 

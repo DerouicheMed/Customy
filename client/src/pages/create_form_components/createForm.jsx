@@ -10,11 +10,7 @@ class CreateForm extends Component {
     return (
       <Provider>
         <div className="container">
-          <div className="row">
-            <div className="col-md-12">
               <FormStepper />
-            </div>
-          </div>
         </div>
       </Provider>
     );

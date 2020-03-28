@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import { CreateFormContext as Context } from "../../contexts/createFormContext";
+
 import QuestionAddedTable from "./questionAddedTable";
+import ResponseAddedTable from "./responseAddedTable";
 
 const FormSecondStep = () => {
   /**
@@ -37,107 +39,166 @@ const FormSecondStep = () => {
       responses: []
     };
     questions.push(question);
-    setForm({ ...form, formQuestions: questions });
+    setForm({
+      ...form,
+      formQuestions: questions,
+      questionText: "",
+      questionFile: "",
+      questionType: "yes/no",
+      questionResponses: []
+    });
     console.log(form);
     e.preventDefault();
   };
+
+  /**
+   * this function joins the new added response to the response list to be added to the
+   * form object later
+   */
+  const onAddNewResponse = e => {
+    console.log("hello");
+    let responses = form.questionResponses;
+    let response = {
+      text: form.responseText,
+      file: form.responseFile
+    };
+    responses.push(response);
+    setForm({
+      ...form,
+      questionResponses: responses,
+      responseText: "",
+      responseFile: ""
+    });
+    e.preventDefault();
+  };
+
   return (
     <React.Fragment>
-      <div className="form-group">
-        <label>You can start adding questions to your form here</label>
-      </div>
-      <div className="form-group">
-        <label>Question</label>
-        <input
-          type="text"
-          className="form-control"
-          name="questionText"
-          value={form.questionText}
-          onChange={onChange}
-        />
-      </div>
-      <div className="form-group">
-        <label>Question Image</label>
-        <input
-          type="file"
-          className="form-control"
-          name="questionFile"
-          value={form.questionFile}
-          onChange={onChange}
-        />
-      </div>
-      <div className="form-group">
-        <label>Response Type</label> <br />
-        <div className=" btn-group btn-group-toggle" data-toggle="buttons">
-          <label className="btn btn-secondary active" onClick={onTypeChange}>
-            <input
-              type="radio"
-              name="options"
-              value="yes/no"
-              onClick={onTypeChange}
-            />
-            <i className="fas fa-check-circle"></i>
-            <br />
-            yes / No
-          </label>
-          <label className="btn btn-secondary" onClick={onTypeChange}>
-            <input
-              type="radio"
-              name="options"
-              value="rating"
-              onClick={onTypeChange}
-            />
-            <i className="fas fa-star"></i>
-            <br /> Rating
-          </label>
-          <label className="btn btn-secondary">
-            <input
-              type="radio"
-              name="options"
-              value="multiple"
-              onClick={onTypeChange}
-            />
-            <i className="fas fa-list"></i>
-            <br /> Multiple Choices
-          </label>
-        </div>
-      </div>
-      {form.questionType === "multiple" && (
-        <React.Fragment>
+      <div className="row">
+        <div className="col-md-12">
           <div className="form-group">
-            <label>Response</label>
+            <label>You can start adding questions to your form here</label>
+          </div>
+          {/********** Question text input ************/}
+          <div className="form-group">
+            <label>Question</label>
             <input
               type="text"
               className="form-control"
-              name="responseText"
-              value={form.responseText}
+              name="questionText"
+              value={form.questionText}
               onChange={onChange}
             />
           </div>
+          {/********** Question file input ************/}
           <div className="form-group">
-            <label>Response Image</label>
+            <label>Question Image</label>
             <input
               type="file"
               className="form-control"
-              name="responseFile"
-              value={form.responseFile}
+              name="questionFile"
+              value={form.questionFile}
               onChange={onChange}
             />
           </div>
+          {/********** Question type radiobox ************/}
           <div className="form-group">
-        <button className="btn btn-secondary" onClick={onAddNewQuestion}>
-          Add response
-        </button>
+            <label>Type</label> <br />
+            <div className=" btn-group btn-group-toggle" data-toggle="buttons">
+              <label
+                className="btn btn-secondary active"
+                onClick={onTypeChange}
+              >
+                <input
+                  type="radio"
+                  name="options"
+                  value="yes/no"
+                  onClick={onTypeChange}
+                />
+                <i className="fas fa-check-circle"></i>
+                <br />
+                yes / No
+              </label>
+              <label className="btn btn-secondary" onClick={onTypeChange}>
+                <input
+                  type="radio"
+                  name="options"
+                  value="rating"
+                  onClick={onTypeChange}
+                />
+                <i className="fas fa-star"></i>
+                <br /> Rating
+              </label>
+              <label className="btn btn-secondary">
+                <input
+                  type="radio"
+                  name="options"
+                  value="multiple"
+                  onClick={onTypeChange}
+                />
+                <i className="fas fa-list"></i>
+                <br /> Multiple Choices
+              </label>
+            </div>
+          </div>
+        </div>
       </div>
-        </React.Fragment>
+
+      {/**
+       * This only gets loaded if the multiple choices button is active to display
+       * the response text n file inputs
+       */
+      form.questionType === "multiple" && (
+        <div className="row">
+          <div className="col-md-6 col-sm-12">
+            {/********** Response text input ************/}
+            <div className="form-group">
+              <label>Response</label>
+              <input
+                type="text"
+                className="form-control"
+                name="responseText"
+                value={form.responseText}
+                onChange={onChange}
+              />
+            </div>
+            {/********** Response file input ************/}
+            <div className="form-group">
+              <label>Response Image</label>
+              <input
+                type="file"
+                className="form-control"
+                name="responseFile"
+                value={form.responseFile}
+                onChange={onChange}
+              />
+            </div>
+            {/********** Add resposnse button ************/}
+            <div className="form-group">
+              <button className="btn btn-success" onClick={onAddNewResponse}>
+                <i className="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+          <div className="col-md-6 col-sm-12">
+            <div className="form-group">
+              <label htmlFor="">Responses added</label>
+              <ResponseAddedTable />
+            </div>
+          </div>
+        </div>
       )}
-      <div className="form-group">
-        <button className="btn btn-secondary" onClick={onAddNewQuestion}>
-          Add this Question
-        </button>
-      </div>
-      <div className="form-group">
-        <QuestionAddedTable />
+      <div className="row">
+        <div className="col-md-12">
+          <div className="form-group">
+            <button className="btn btn-secondary" onClick={onAddNewQuestion}>
+              Add this Question
+            </button>
+          </div>
+          <div className="form-group">
+            <QuestionAddedTable />
+          </div>
+        </div>
       </div>
     </React.Fragment>
   );

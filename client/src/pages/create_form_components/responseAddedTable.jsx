@@ -8,30 +8,26 @@ const ResponseAddedTable = () => {
    */
   const [form, setForm] = useContext(Context);
 
-  const editQuestion = e =>{
-
-  }
-
-  const handleDelete = (question) =>{
-      /*
-    console.log(question);
-    let questions = form.formQuestions;
-    questions= questions.filter( element => 
-      !(element.text == question.text && 
-      element.type == question.type )
+  /**
+   * this function deletes the response added
+   * to the question from the questionResponses list 
+   */
+  const handleDelete = (response) =>{
+    let responses = form.questionResponses;
+    responses= responses.filter( element => 
+      !(element.text == response.text )
     );
-    setForm({...form, formQuestions: questions });
-    */
+    setForm({...form, questionResponses: responses });
   }
 
   /**
    * this funtions will test if the question list is empty it will desplay
    * a no question message else it will display the added questions in a table
    */
-  const renderQuestions = () => {
+  const renderResponses = () => {
     const responses = form.questionResponses;
     if (responses === undefined || responses.length === 0) {
-      return <div>No responses added yet</div>;
+      return <div>(*) No responses added to this question yet</div>;
     } else {
       return (
         <table className="table">
@@ -40,7 +36,6 @@ const ResponseAddedTable = () => {
               <th scope="col">#</th>
               <th scope="col">Response</th>
               <th scope="col">File</th>
-              <th>Edit</th>
               <th>Delete</th>
             </tr>
           </thead>
@@ -51,7 +46,6 @@ const ResponseAddedTable = () => {
                   <td>#</td>
                   <td>{response.text}</td>
                   <td>{(response.file.length ===0)? 0 : 1}</td>
-                  <td><button type="button" className="btn btn-warning">Edit</button></td>
                   <td><button type="button" className="btn btn-danger" onClick={() => handleDelete(response)}>Delete</button></td>
                 </tr>
               );
@@ -61,7 +55,7 @@ const ResponseAddedTable = () => {
       );
     }
   };
-  return ( <React.Fragment>{renderQuestions()}</React.Fragment> );
+  return ( <React.Fragment>{renderResponses()}</React.Fragment> );
 }
  
 export default ResponseAddedTable;

@@ -29,7 +29,7 @@ const QuestionAddedTable = () => {
   const renderQuestions = () => {
     const questions = form.formQuestions;
     if (questions === undefined || questions.length === 0) {
-      return <div>No question added yet</div>;
+      return <div> * No question added to this form yet</div>;
     } else {
       return (
         <table className="table">
@@ -44,10 +44,9 @@ const QuestionAddedTable = () => {
           </thead>
           <tbody>
             {questions.map(question => {
-              let i = 0;
               return (
                 <tr key={Math.random()}>
-                  <td>{i++}</td>
+                  <td>#</td>
                   <td>{question.text}</td>
                   <td>{question.type}</td>
                   <td><button type="button" className="btn btn-warning">Edit</button></td>
