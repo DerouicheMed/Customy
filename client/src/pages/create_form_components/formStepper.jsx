@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 
 import FormFirstStep from './formFirstStep'
 import FormSecondStep from './formSecondStep';
+import FormThirdStep from './formThirdStep';
 
 
 
@@ -38,7 +39,7 @@ function getStepContent(step) {
     case 1:
       return <FormSecondStep/>;
     case 2:
-      return 'This is the bit I really care about!';
+      return <FormThirdStep/>;
     default:
       return 'Unknown step';
   }

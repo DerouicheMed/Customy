@@ -2,25 +2,22 @@ import React, { useContext } from "react";
 import { CreateFormContext as Context } from "../../contexts/createFormContext";
 
 const QuestionAddedTable = () => {
-
   /**
    * this gets the context from creatFormContext so we can use and edit the state
    */
   const [form, setForm] = useContext(Context);
 
-  const editQuestion = e =>{
+  const editQuestion = e => {};
 
-  }
-
-  const deleteQuestion = (question) =>{
+  const deleteQuestion = question => {
     console.log(question);
     let questions = form.formQuestions;
-    questions= questions.filter( element => 
-      !(element.text == question.text && 
-      element.type == question.type )
+    questions = questions.filter(
+      element =>
+        !(element.text == question.text && element.type == question.type)
     );
-    setForm({...form, formQuestions: questions });
-  }
+    setForm({ ...form, formQuestions: questions });
+  };
 
   /**
    * this funtions will test if the question list is empty it will desplay
@@ -32,7 +29,7 @@ const QuestionAddedTable = () => {
       return <div> * No question added to this form yet</div>;
     } else {
       return (
-        <table className="table">
+        <table className="table questions-table">
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -49,8 +46,20 @@ const QuestionAddedTable = () => {
                   <td>#</td>
                   <td>{question.text}</td>
                   <td>{question.type}</td>
-                  <td><button type="button" className="btn btn-warning">Edit</button></td>
-                  <td><button type="button" className="btn btn-danger" onClick={() => deleteQuestion(question)}>Delete</button></td>
+                  <td>
+                    <button type="button" className="btn btn-warning">
+                      <i className="fas fa-edit" style={{ color: "white" }}></i>
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => deleteQuestion(question)}
+                    >
+                      <i className="fas fa-trash-alt"></i>
+                    </button>
+                  </td>
                 </tr>
               );
             })}
@@ -59,7 +68,7 @@ const QuestionAddedTable = () => {
       );
     }
   };
-  return ( <React.Fragment>{renderQuestions()}</React.Fragment> );
-}
- 
+  return <React.Fragment>{renderQuestions()}</React.Fragment>;
+};
+
 export default QuestionAddedTable;

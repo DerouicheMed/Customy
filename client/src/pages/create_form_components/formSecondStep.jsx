@@ -36,7 +36,7 @@ const FormSecondStep = () => {
       text: form.questionText,
       file: form.questionFile,
       type: form.questionType,
-      responses: []
+      responses: form.questionResponses
     };
     questions.push(question);
     setForm({
@@ -104,9 +104,10 @@ const FormSecondStep = () => {
           {/********** Question type radiobox ************/}
           <div className="form-group">
             <label>Type</label> <br />
-            <div className=" btn-group btn-group-toggle" data-toggle="buttons">
+            <div id="questionType-buttonGroup" className=" btn-group btn-group-toggle" data-toggle="buttons">
+              {/*** yes/no button ***/}
               <label
-                className="btn btn-secondary active"
+                className="btn btn-light active"
                 onClick={onTypeChange}
               >
                 <input
@@ -119,7 +120,8 @@ const FormSecondStep = () => {
                 <br />
                 yes / No
               </label>
-              <label className="btn btn-secondary" onClick={onTypeChange}>
+              {/*** ratiing button ***/}
+              <label className="btn btn-light" onClick={onTypeChange}>
                 <input
                   type="radio"
                   name="options"
@@ -129,7 +131,8 @@ const FormSecondStep = () => {
                 <i className="fas fa-star"></i>
                 <br /> Rating
               </label>
-              <label className="btn btn-secondary">
+              {/*** multiple choices button ***/}
+              <label className="btn btn-light">
                 <input
                   type="radio"
                   name="options"
@@ -188,13 +191,16 @@ const FormSecondStep = () => {
           </div>
         </div>
       )}
-      <div className="row">
+      <div className="row" style={{marginTop : 50, marginButtom : 50}}>
         <div className="col-md-12">
+          {/********** Add question button ************/}
           <div className="form-group">
-            <button className="btn btn-secondary" onClick={onAddNewQuestion}>
+            <button className="btn btn-outline-primary" onClick={onAddNewQuestion}>
+              <i className="fas fa-plus-circle" style={{margin : 5}}></i>
               Add this Question
             </button>
           </div>
+          {/********** questions added list ************/}
           <div className="form-group">
             <QuestionAddedTable />
           </div>

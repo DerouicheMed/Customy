@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { CreateFormContext as Context } from "../../contexts/createFormContext";
 
 const ResponseAddedTable = () => {
-
   /**
    * this gets the context from creatFormContext so we can use and edit the state
    */
@@ -10,15 +9,13 @@ const ResponseAddedTable = () => {
 
   /**
    * this function deletes the response added
-   * to the question from the questionResponses list 
+   * to the question from the questionResponses list
    */
-  const handleDelete = (response) =>{
+  const handleDelete = response => {
     let responses = form.questionResponses;
-    responses= responses.filter( element => 
-      !(element.text == response.text )
-    );
-    setForm({...form, questionResponses: responses });
-  }
+    responses = responses.filter(element => !(element.text == response.text));
+    setForm({ ...form, questionResponses: responses });
+  };
 
   /**
    * this funtions will test if the question list is empty it will desplay
@@ -30,7 +27,7 @@ const ResponseAddedTable = () => {
       return <div>(*) No responses added to this question yet</div>;
     } else {
       return (
-        <table className="table">
+        <table className="table responses-table">
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -45,8 +42,16 @@ const ResponseAddedTable = () => {
                 <tr key={Math.random()}>
                   <td>#</td>
                   <td>{response.text}</td>
-                  <td>{(response.file.length ===0)? 0 : 1}</td>
-                  <td><button type="button" className="btn btn-danger" onClick={() => handleDelete(response)}>Delete</button></td>
+                  <td>{response.file.length === 0 ? 0 : 1}</td>
+                  <td>
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => handleDelete(response)}
+                    >
+                      <i className="fas fa-trash-alt"></i>
+                    </button>
+                  </td>
                 </tr>
               );
             })}
@@ -55,7 +60,7 @@ const ResponseAddedTable = () => {
       );
     }
   };
-  return ( <React.Fragment>{renderResponses()}</React.Fragment> );
-}
- 
+  return <React.Fragment>{renderResponses()}</React.Fragment>;
+};
+
 export default ResponseAddedTable;

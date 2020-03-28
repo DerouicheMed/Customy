@@ -50,7 +50,6 @@ const FormFirstStep = () => {
           rows="10"
         ></textarea>
       </div>
-      <button onClick={onClick}>click here</button>
       </div>
     </div>
   );
