@@ -43,13 +43,13 @@ const FormThirStep = () => {
           <div className="question-preview">
             <div className="card">
               <div className="card-body">
+                {/** question title **/}
                 <h5 className="card-title">{question.text}</h5>
-                {question.file != undefined && question.file.length != 0 && (
-                  <img
-                    src="..."
-                    className="card-img-top"
-                    alt="image will appear here"
-                  />
+                {/**if question has a file a msg will be displayed  */
+                question.file != undefined && question.file.length != 0 && (
+                  <React.Fragment>
+                    <i className="fas fa-image"></i> <small>contains image</small>
+                  </React.Fragment>
                 )}
               </div>
               <ul className="list-group list-group-flush">
@@ -92,7 +92,13 @@ const FormThirStep = () => {
         return question.responses.map((response, index) => {
           return (
             <li key={index} className="list-group-item">
-              <small>{response.text}</small>{" "}
+              <small>{response.text}</small> <br/>
+              {/**if response has a file a msg will be displayed  */
+                response.file != undefined && response.file.length != 0 && (
+                  <React.Fragment>
+                     <small><i className="fas fa-image"></i></small>
+                  </React.Fragment>
+                )}
             </li>
           );
         });
