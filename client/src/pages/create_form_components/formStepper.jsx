@@ -6,7 +6,10 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-import FormFirstStep from './formFirstStep'
+import axios from 'axios';
+import { CreateFormContext as Context } from "../../contexts/createFormContext";
+
+import FormFirstStep from './formFirstStep';
 import FormSecondStep from './formSecondStep';
 import FormThirdStep from './formThirdStep';
 
@@ -64,7 +67,7 @@ export default function HorizontalLinearStepper() {
   };
 
   const handleNext = () => {
-      console.log(skipped);
+    if ( activeStep === 2) addNewForm()
     let newSkipped = skipped;
     if (isStepSkipped(activeStep)) {
       newSkipped = new Set(newSkipped.values());
@@ -97,6 +100,27 @@ export default function HorizontalLinearStepper() {
   const handleReset = () => {
     setActiveStep(0);
   };
+
+  /**
+   * this gets the context from creatFormContext so we can use and edit the state
+   */
+  const [form, setForm] = useContext(Context);
+
+  /**
+   * this function makes an api call to the server to add a new form 
+   */
+  const addNewForm = () => {
+    let newForm = {
+      title : form.formTitle,
+      description : form.formDescription,
+      questions : form.formQuestions
+    }
+    console.log(newForm);
+    
+    axios.post('http://localhost:5000/api/form',newForm)
+    .then( result => console.log(result))
+    .catch( err => console.log(err))
+  }
 
   return (
     <div className={classes.root}>

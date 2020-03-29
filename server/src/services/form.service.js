@@ -1,6 +1,10 @@
 const Form = require('../models/form');
+const Question = require('../models/question');
+const Response = require('../models/response');
 const Study = require('../models/study');
 const mongoose = require('mongoose');
+
+const QuestionService = require('./question.service');
 
 class FormService {
 }
@@ -39,6 +43,52 @@ FormService.prototype.getByStudy = (req,res) => {
 }
 
 FormService.prototype.add = (req,res) => {
+    console.log(req.body);
+    let newForm = new Form ({
+        title : req.body.title,
+        description : req.body.descriptiton,
+        _id :mongoose.Types.ObjectId()
+    })
+    let questions = req.body.questions;      
+    newForm.save((err,result)=>{
+        if(err){
+            res.send(err);
+        }else{
+            if (questions !== undefined && questions.length !== 0)  questions.map( question => {
+                let newQuestion = new Question({
+                    _id :mongoose.Types.ObjectId(),
+                    text : question.text,
+                    type : question.type,
+                    image : question.file,
+                    form : { _id : result._id}
+                })
+                newQuestion.save((err,result) =>{
+                    if(err){
+                        res.send(err);
+                    }
+                    else{
+                        let responses = question.responses;
+                        if (responses !== undefined && responses.length !== 0)  responses.map( response => {
+                            let newResponse = new Response({
+                                _id :mongoose.Types.ObjectId(),
+                                text :response.text,
+                                image : response.file,
+                                question:{ _id : result._id},
+                            })
+                            newResponse.save((err,result)=>{
+                                if(err){
+                                    res.send(err);
+                                }
+                            })
+                        }) 
+                    }
+                })
+        
+            });
+            res.send(result);
+        }
+    })
+    /*
     let model = new Form(req.body);
     model._id=mongoose.Types.ObjectId();
     model.save((err,result)=>{
@@ -47,7 +97,7 @@ FormService.prototype.add = (req,res) => {
         }else{
             res.send(result);
         }
-    })
+    })*/
 }
 
 FormService.prototype.update = (req,res) => {
