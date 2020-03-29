@@ -25,20 +25,22 @@ const FormThirStep = () => {
   };
 
   /**
-   * this function returns the carousel items containing the form's questions
+   * this function returns the carousel items containing the form's preview
+   * with all the questions and their responses
    */
   const setItems = () => {
     let questions = form.formQuestions;
     return questions.map((question, index) => {
       return (
         <div className={index === 0 ? "carousel-item active" : "carousel-item"}>
+          {/****** carousel background image ******/}
           <img
             className="d-block w-100"
             src="/img/formpreviewbackground.png"
             alt="First slide"
           />
+          {/****** form question card ******/}
           <div className="question-preview">
-            {/****** form question card ******/}
             <div className="card">
               <div className="card-body">
                 <h5 className="card-title">{question.text}</h5>
@@ -51,17 +53,50 @@ const FormThirStep = () => {
                 )}
               </div>
               <ul className="list-group list-group-flush">
-                { true && question.responses.map( (response, index) => {
-                              return (
-                                <li key={index} className="list-group-item"><small>{response.text}</small> </li>
-                              )
-                          })}
+                {//responses will be loaded here
+                setQuestionResponsesPreview(question)}
               </ul>
             </div>
           </div>
         </div>
       );
     });
+  };
+
+  /**
+   * this function depending on the type of the question passed will return list elements
+   * of the responses, yes or no, rating one to ten and if type is multiple it will go through
+   * the responses list and list all the responses
+   * @param {*} question this question is passed from the form's question list
+   */
+  const setQuestionResponsesPreview = question => {
+    switch (question.type) {
+      case "yes/no":
+        return (
+          <React.Fragment>
+            <li key="1" className="list-group-item">
+              <small>Yes</small>{" "}
+            </li>
+            <li key="2" className="list-group-item">
+              <small>No</small>{" "}
+            </li>
+          </React.Fragment>
+        );
+      case "rating":
+        return (
+          <li key="1" className="list-group-item">
+            <small>Rating from 1 to 10</small>{" "}
+          </li>
+        );
+      case "multiple":
+        return question.responses.map((response, index) => {
+          return (
+            <li key={index} className="list-group-item">
+              <small>{response.text}</small>{" "}
+            </li>
+          );
+        });
+    }
   };
   return (
     <div className="row">
