@@ -44,7 +44,15 @@ const FormSecondStep = () => {
   const loadQuestionButton = () => {
     if (form.questionIndex === -1)
       return (
-        <button className="btn btn-outline-primary" onClick={addQuestion}>
+        <button
+          className="btn btn-outline-primary"
+          onClick={addQuestion}
+          disabled={
+            form.questionText.length === 0 ||
+            (form.questionType === "multiple" &&
+              form.questionResponses.length === 0)
+          }
+        >
           <i className="fas fa-plus-circle" style={{ margin: 5 }}></i>
           Add this Question
         </button>

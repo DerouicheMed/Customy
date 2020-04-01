@@ -123,6 +123,16 @@ export default function HorizontalLinearStepper() {
     */
   }
 
+  /**
+   * this function sets the next button to disabled according to conditions 
+   */
+  const setNextButtonDisabled = () =>{
+    switch (activeStep){
+      case 0 : return ( form.formTitle.length ===0) ? true : false
+      case 1 : return ( form.formQuestions === undefined || form.formQuestions.length ===0) ? true : false
+    }
+  }
+
   return (
     <div className={classes.root}>
       <Stepper activeStep={activeStep}>
@@ -174,6 +184,7 @@ export default function HorizontalLinearStepper() {
                 color="primary"
                 onClick={handleNext}
                 className={classes.button}
+                disabled={ setNextButtonDisabled()}
               >
                 {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
               </Button>

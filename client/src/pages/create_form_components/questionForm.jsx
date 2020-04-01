@@ -149,8 +149,10 @@ const QuestionForm = () => {
             </div>
             {/********** Add resposnse button ************/}
             <div className="form-group" style={{textAlign : 'right'}}>
-              <button className="btn btn-outline-success" onClick={onAddNewResponse}>
-                <i className="fas fa-plus"></i>
+              <button className="btn btn-outline-success" onClick={onAddNewResponse} 
+              disabled={ form.responseText.length===0}>
+                <i className="fas fa-plus-circle" style={{ margin: 5 }}></i>
+          Add response to this question
               </button>
             </div>
           </div>
