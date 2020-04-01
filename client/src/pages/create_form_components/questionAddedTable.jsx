@@ -7,8 +7,28 @@ const QuestionAddedTable = () => {
    */
   const [form, setForm] = useContext(Context);
 
-  const editQuestion = e => {};
-
+  /**
+   * this function sets the selected question to the state value so the controlled
+   * inputs get their values
+   */
+  const loadQuestionToBeEdited = question => {
+    form.formQuestions.map((element, index) => {
+      if (element.text === question.text)
+        setForm({
+          ...form,
+          questionText: question.text,
+          questionFile: question.file,
+          questionType: question.type,
+          questionResponses: question.responses,
+          questionIndex: index
+        });
+    });
+  };
+  
+  /**
+   * this function filter the form questions list and delete the 
+   * selected question
+   */
   const deleteQuestion = question => {
     console.log(question);
     let questions = form.formQuestions;
@@ -47,7 +67,11 @@ const QuestionAddedTable = () => {
                   <td>{question.text}</td>
                   <td>{question.type}</td>
                   <td>
-                    <button type="button" className="btn btn-warning">
+                    <button
+                      type="button"
+                      className="btn btn-warning"
+                      onClick={() => loadQuestionToBeEdited(question)}
+                    >
                       <i className="fas fa-edit" style={{ color: "white" }}></i>
                     </button>
                   </td>
@@ -68,7 +92,11 @@ const QuestionAddedTable = () => {
       );
     }
   };
-  return <React.Fragment>{renderQuestions()}</React.Fragment>;
+  return (
+    <React.Fragment>
+      {renderQuestions()}
+    </React.Fragment>
+  );
 };
 
 export default QuestionAddedTable;

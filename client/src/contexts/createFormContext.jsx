@@ -13,7 +13,8 @@ export const CreateFormProvider = (props) => {
       questionFile: "",
       questionResponses: [],
       responseText: "",
-      responseFile: ""
+      responseFile: "",
+      questionIndex : -1
     }
 
   )

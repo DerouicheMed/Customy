@@ -116,10 +116,11 @@ export default function HorizontalLinearStepper() {
       questions : form.formQuestions
     }
     console.log(newForm);
-    
+    /*
     axios.post('http://localhost:5000/api/form',newForm)
     .then( result => console.log(result))
     .catch( err => console.log(err))
+    */
   }
 
   return (

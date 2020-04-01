@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { CreateFormContext as Context } from "../../contexts/createFormContext";
 
 const FormThirStep = () => {
+
   /**
    * this gets the context from creatFormContext so we can use and edit the state
    */
