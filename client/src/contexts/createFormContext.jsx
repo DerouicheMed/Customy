@@ -10,11 +10,12 @@ export const CreateFormProvider = (props) => {
       formQuestions: [],
       questionText: "",
       questionType: "yes/no",
-      questionFile: "",
+      questionFile: null,
       questionResponses: [],
       responseText: "",
-      responseFile: "",
-      questionIndex : -1
+      responseFile: null,
+      questionIndex : -1,
+      files : []
     }
 
   )

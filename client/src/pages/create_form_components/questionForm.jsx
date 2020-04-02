@@ -1,16 +1,19 @@
-import React,{useContext} from 'react';
+import React, { useContext, useRef } from "react";
 
 import { CreateFormContext as Context } from "../../contexts/createFormContext";
 import ResponseAddedTable from "./responseAddedTable";
 
 const QuestionForm = () => {
-
-    /**
+  /**
    * this gets the context from creatFormContext so we can use and edit the state
-   */  
+   */
+
   const [form, setForm] = useContext(Context);
-    /**
-   * this function adds the inputs value into the state
+
+  const inputFileRef= useRef([]);
+
+  /**
+   * this function adds the text inputs value into the context state
    */
   const onChange = e => {
     setForm({
@@ -18,6 +21,20 @@ const QuestionForm = () => {
       [e.target.name]: e.target.value
     });
   };
+
+  /**
+   * this function adds the text inputs value into the context state
+   */
+  const onFileChange = e => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.files[0]
+    });
+  };
+
+  /**
+   * this function adds the radio inputs values into the context state
+   */
   const onTypeChange = e => {
     setForm({
       ...form,
@@ -29,24 +46,28 @@ const QuestionForm = () => {
    * form object later
    */
   const onAddNewResponse = e => {
-    console.log("hello");
     let responses = form.questionResponses;
+    let files = form.files;
+    let file =form.responseFile;
+    if  (file !== undefined && file !== null) files.push(file);
+    console.log(file);
     let response = {
       text: form.responseText,
-      file: form.responseFile
+      file: (file ===undefined || file === null) ? '' : file.name
     };
     responses.push(response);
     setForm({
       ...form,
       questionResponses: responses,
       responseText: "",
-      responseFile: ""
+      responseFile: null,
+      files : files
     });
     e.preventDefault();
   };
-    return ( 
-        <>
-        <div className="row">
+  return (
+    <>
+      <div className="row">
         <div className="col-md-12">
           <div className="form-group">
             <label>You can start adding questions to your form here</label>
@@ -64,22 +85,37 @@ const QuestionForm = () => {
           </div>
           {/********** Question file input ************/}
           <div className="form-group">
-            <label>Question Image</label>
             <input
               type="file"
               className="form-control"
               name="questionFile"
-              value={form.questionFile}
-              onChange={onChange}
+              onChange={onFileChange}
+              ref={element =>inputFileRef.current[0]=element}
+              style={{display : 'none'}}
             />
+            <button
+              className="btn btn-secondary"
+              onClick={()=>inputFileRef.current[0].click()}
+            >
+              <i className="fas fa-cloud-upload-alt" style={{ margin: 5 }}></i>
+              { (form.questionFile === null || form.questionFile === undefined) ? 'Upload image' : form.questionFile.name}
+            </button>
           </div>
           {/********** Question type radiobox ************/}
           <div className="form-group">
             <label>Type</label> <br />
-            <div id="questionType-buttonGroup" className=" btn-group btn-group-toggle" data-toggle="buttons">
+            <div
+              id="questionType-buttonGroup"
+              className=" btn-group btn-group-toggle"
+              data-toggle="buttons"
+            >
               {/*** yes/no button ***/}
               <label
-                className={(form.questionType === 'yes/no') ? "btn btn-light active" : "btn btn-light" }
+                className={
+                  form.questionType === "yes/no"
+                    ? "btn btn-light active"
+                    : "btn btn-light"
+                }
               >
                 <input
                   type="radio"
@@ -92,7 +128,13 @@ const QuestionForm = () => {
                 yes / No
               </label>
               {/*** rating button ***/}
-              <label className={(form.questionType === 'rating') ? "btn btn-light active" : "btn btn-light" } >
+              <label
+                className={
+                  form.questionType === "rating"
+                    ? "btn btn-light active"
+                    : "btn btn-light"
+                }
+              >
                 <input
                   type="radio"
                   name="options"
@@ -103,7 +145,13 @@ const QuestionForm = () => {
                 <br /> Rating
               </label>
               {/*** multiple choices button ***/}
-              <label className={(form.questionType === 'multiple') ? "btn btn-light active" : "btn btn-light" }>
+              <label
+                className={
+                  form.questionType === "multiple"
+                    ? "btn btn-light active"
+                    : "btn btn-light"
+                }
+              >
                 <input
                   type="radio"
                   name="options"
@@ -138,21 +186,31 @@ const QuestionForm = () => {
             </div>
             {/********** Response file input ************/}
             <div className="form-group">
-              <label>Response Image</label>
               <input
                 type="file"
                 className="form-control"
                 name="responseFile"
-                value={form.responseFile}
-                onChange={onChange}
+                onChange={onFileChange}
+                ref={element=>inputFileRef.current[1] = element}
+                style={{display : 'none'}}
               />
+              <button
+              className="btn btn-secondary"
+              onClick={()=>inputFileRef.current[1].click()}
+            >
+              <i className="fas fa-cloud-upload-alt" style={{ margin: 5 }}></i>
+              { ( form.responseFile === undefined || form.responseFile === null ) ? 'Upload image' : form.responseFile.name}
+            </button>
             </div>
             {/********** Add resposnse button ************/}
-            <div className="form-group" style={{textAlign : 'right'}}>
-              <button className="btn btn-outline-success" onClick={onAddNewResponse} 
-              disabled={ form.responseText.length===0}>
+            <div className="form-group" style={{ textAlign: "right" }}>
+              <button
+                className="btn btn-outline-success"
+                onClick={onAddNewResponse}
+                disabled={form.responseText.length === 0}
+              >
                 <i className="fas fa-plus-circle" style={{ margin: 5 }}></i>
-          Add response to this question
+                Add response to this question
               </button>
             </div>
           </div>
@@ -164,8 +222,8 @@ const QuestionForm = () => {
           </div>
         </div>
       )}
-        </>
-      );
-}
- 
+    </>
+  );
+};
+
 export default QuestionForm;

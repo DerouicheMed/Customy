@@ -24,19 +24,21 @@ const QuestionAddedTable = () => {
         });
     });
   };
-  
+
   /**
-   * this function filter the form questions list and delete the 
+   * this function filter the form questions list and delete the
    * selected question
    */
   const deleteQuestion = question => {
-    console.log(question);
     let questions = form.formQuestions;
+    let files = form.files;
+    if (question.file.length !== 0)
+      files = files.filter(file =>  file.name !== question.file);
     questions = questions.filter(
       element =>
         !(element.text == question.text && element.type == question.type)
     );
-    setForm({ ...form, formQuestions: questions });
+    setForm({ ...form, formQuestions: questions, files: files });
   };
 
   /**
@@ -54,6 +56,7 @@ const QuestionAddedTable = () => {
             <tr>
               <th scope="col">#</th>
               <th scope="col">Question header</th>
+              <th scope="col">File</th>
               <th scope="col">Type</th>
               <th>Edit</th>
               <th>Delete</th>
@@ -65,6 +68,7 @@ const QuestionAddedTable = () => {
                 <tr key={Math.random()}>
                   <td>#</td>
                   <td>{question.text}</td>
+                  <td>{question.file.length === 0 ? 0 : 1}</td>
                   <td>{question.type}</td>
                   <td>
                     <button
@@ -92,11 +96,7 @@ const QuestionAddedTable = () => {
       );
     }
   };
-  return (
-    <React.Fragment>
-      {renderQuestions()}
-    </React.Fragment>
-  );
+  return <React.Fragment>{renderQuestions()}</React.Fragment>;
 };
 
 export default QuestionAddedTable;

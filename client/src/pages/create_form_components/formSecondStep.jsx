@@ -16,9 +16,12 @@ const FormSecondStep = () => {
    */
   const addQuestion = e => {
     let questions = form.formQuestions;
+    let files = form.files;
+    let file =form.questionFile;
+    if  (file !== undefined && file !== null) files.push(file);
     let question = {
       text: form.questionText,
-      file: form.questionFile,
+      file: (file ===undefined || file === null) ? '' : file.name,
       type: form.questionType,
       responses: form.questionType === "multiple" ? form.questionResponses : []
     };
@@ -27,9 +30,10 @@ const FormSecondStep = () => {
       ...form,
       formQuestions: questions,
       questionText: "",
-      questionFile: "",
+      questionFile: null,
       questionType: "yes/no",
-      questionResponses: []
+      questionResponses: [],
+      files : files
     });
     console.log(form);
     e.preventDefault();
