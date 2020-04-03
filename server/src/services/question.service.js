@@ -72,6 +72,4 @@ QuestionService.prototype.delete = (req,res) => {
     })
 }
 
-
-
 module.exports = QuestionService;

@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const routes = require("./routes/routes");
-const middlewares = require('./middlewares');
+//const middlewares = require('./middlewares');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -22,8 +22,8 @@ connection.once('open', () => {
   console.log("MongoDB database connection established successfully");
 })
 
-app.use(middlewares.notFound);
-app.use(middlewares.errorHandler);
+//app.use(middlewares.notFound);
+//app.use(middlewares.errorHandler);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

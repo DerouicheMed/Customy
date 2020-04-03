@@ -43,7 +43,9 @@ FormService.prototype.getByStudy = (req,res) => {
 }
 
 FormService.prototype.add = (req,res) => {
-    console.log(req.body);
+    console.log(req.body.questions);
+    res.send(req.body)
+    /*
     let newForm = new Form ({
         title : req.body.title,
         description : req.body.descriptiton,

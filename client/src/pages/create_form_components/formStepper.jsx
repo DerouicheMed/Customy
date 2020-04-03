@@ -118,8 +118,8 @@ export default function HorizontalLinearStepper() {
     console.log(newForm);
 
     let formData = new FormData();
-    form.files.map( (file, index) => {
-      formData.append(index,file);
+    form.files.map( (file) => {
+      formData.append('file',file);
     })
     console.log(formData)
     
@@ -130,7 +130,18 @@ export default function HorizontalLinearStepper() {
     axios.post('http://localhost:5000/api/form/upload',formData)
     .then( result => console.log(result))
     .catch( err => console.log(err))
-    
+    /*
+    axios.post({
+      url : 'http://localhost:5000/api/form/upload',
+      method : 'POST',
+      headers : {
+        'Content-Type': 'multipart/form-data'
+      },
+      data : formData
+    })
+    .then( result => console.log(result))
+    .catch( err => console.log(err))
+    */
   }
 
   /**
