@@ -12,7 +12,7 @@ const QuestionAddedTable = () => {
    * inputs get their values
    */
   const loadQuestionToBeEdited = question => {
-    form.formQuestions.map((element, index) => {
+     return form.formQuestions.map((element, index) => {
       if (element.text === question.text)
         setForm({
           ...form,
@@ -36,7 +36,7 @@ const QuestionAddedTable = () => {
       files = files.filter(file =>  file.name !== question.file);
     questions = questions.filter(
       element =>
-        !(element.text == question.text && element.type == question.type)
+        !(element.text === question.text && element.type === question.type)
     );
     setForm({ ...form, formQuestions: questions, files: files });
   };

@@ -1,17 +1,16 @@
-const mongoose = require('mongoose');
-
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const studySchema = new Schema({
+const studySchema = new Schema(
+  {
+    _id: Schema.Types.ObjectId,
+    name: String,
+  },
+  {
+    timestamps: true,
+  }
+);
 
-  _id: Schema.Types.ObjectId,
-  name: String,
-  forms:[{type: Schema.Types.ObjectId,ref: 'Form'}],
-}, 
-{
-  timestamps: true,
-});
-
-const Study = mongoose.model('Study', studySchema);
+const Study = mongoose.model("Study", studySchema);
 
 module.exports = Study;

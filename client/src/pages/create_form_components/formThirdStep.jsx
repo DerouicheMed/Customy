@@ -1,11 +1,9 @@
 import React, { useContext } from "react";
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { CreateFormContext as Context } from "../../contexts/createFormContext";
 
 const FormThirStep = () => {
 
-  const[display,setDisplay]=React.useState('none');
   const [form, setForm] = useContext(Context);
 
   /**
@@ -47,7 +45,7 @@ const FormThirStep = () => {
                 {/** question title **/}
                 <h5 className="card-title">{question.text}</h5>
                 {/**if question has a file a msg will be displayed  */
-                question.file != undefined && question.file.length != 0 && (
+                question.file !== undefined && question.file.length !== 0 && (
                   <React.Fragment>
                     <i className="fas fa-image"></i> <small>contains image</small>
                   </React.Fragment>
@@ -74,14 +72,14 @@ const FormThirStep = () => {
     switch (question.type) {
       case "yes/no":
         return (
-          <React.Fragment>
+          <>
             <li key="1" className="list-group-item">
               <small>Yes</small>{" "}
             </li>
             <li key="2" className="list-group-item">
               <small>No</small>{" "}
             </li>
-          </React.Fragment>
+          </>
         );
       case "rating":
         return (
@@ -95,10 +93,9 @@ const FormThirStep = () => {
             <li key={index} className="list-group-item">
               <small>{response.text}</small> <br/>
               {/**if response has a file a msg will be displayed  */
-                response.file != undefined && response.file.length != 0 && (
-                  <React.Fragment>
+                response.file !== undefined && response.file.length !== 0 && (
+                  
                      <small><i className="fas fa-image"></i></small>
-                  </React.Fragment>
                 )}
             </li>
           );

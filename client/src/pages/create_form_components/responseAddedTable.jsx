@@ -16,7 +16,7 @@ const ResponseAddedTable = () => {
     if (response.file.length !== 0)
       files = files.filter(file =>  file.name !== response.file);
     let responses = form.questionResponses;
-    responses = responses.filter(element => !(element.text == response.text));
+    responses = responses.filter(element => !(element.text === response.text));
     setForm({ ...form, questionResponses: responses, files : files });
   };
 

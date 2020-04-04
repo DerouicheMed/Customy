@@ -10,46 +10,42 @@ const FormFirstStep = () => {
   /**
    * this function adds the inputs value into the state
    */
-  const onChange = e => {
+  const onChange = (e) => {
     setForm({
       ...form,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
-  };
-
-  const onClick = () => {
-    console.log(form);
   };
 
   return (
     <div className="row">
       <div className="col-md-12">
-      <div className="form-group">
-        <label>
-          To create a form please start by entering the form title and
-          description
-        </label>
-      </div>
-      <div className="form-group">
-        <label>Form Title *</label>
-        <input
-          type="text"
-          className="form-control"
-          name="formTitle"
-          value={form.formTitle}
-          onChange={onChange}
-        />
-      </div>
-      <div className="form-group">
-        <label>Description</label>
-        <textarea
-          className="form-control"
-          name="formDescription"
-          value={form.formDescription}
-          onChange={onChange}
-          rows="10"
-        ></textarea>
-      </div>
+        <div className="form-group">
+          <label>
+            To create a form please start by entering the form title and
+            description
+          </label>
+        </div>
+        <div className="form-group">
+          <label>Form Title *</label>
+          <input
+            type="text"
+            className="form-control"
+            name="formTitle"
+            value={form.formTitle}
+            onChange={onChange}
+          />
+        </div>
+        <div className="form-group">
+          <label>Description</label>
+          <textarea
+            className="form-control"
+            name="formDescription"
+            value={form.formDescription}
+            onChange={onChange}
+            rows="10"
+          ></textarea>
+        </div>
       </div>
     </div>
   );

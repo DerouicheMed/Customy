@@ -138,25 +138,27 @@ export default function HorizontalLinearStepper() {
     form.files.map((file) => {
       formData.append("file", file);
     });
-    /*
-    //this will send the form 
-    axios.post('http://localhost:5000/api/form',newForm,{
-      onUploadProgress: (progressEvent) => {
-        const totalLength = progressEvent.lengthComputable
-          ? progressEvent.total
-          : progressEvent.target.getResponseHeader("content-length") ||
-            progressEvent.target.getResponseHeader(
-              "x-decompressed-content-length"
+
+    //this will send the form
+    axios
+      .post("http://localhost:5000/api/form", newForm, {
+        onUploadProgress: (progressEvent) => {
+          const totalLength = progressEvent.lengthComputable
+            ? progressEvent.total
+            : progressEvent.target.getResponseHeader("content-length") ||
+              progressEvent.target.getResponseHeader(
+                "x-decompressed-content-length"
+              );
+          console.log("onUploadProgress", totalLength);
+          if (totalLength !== null) {
+            setProgressForm(
+              Math.round((progressEvent.loaded * 100) / totalLength)
             );
-        console.log("onUploadProgress", totalLength);
-        if (totalLength !== null) {
-          setProgressForm(Math.round((progressEvent.loaded * 100) / totalLength))
-        }
-      },
-    })
-    .then( result => setProgressForm(0))
-    .catch( err => console.log(err))
-    
+          }
+        },
+      })
+      .catch((err) => console.log(err));
+
     //this will send the files
     axios
       .post("http://localhost:5000/api/form/upload", formData, {
@@ -169,12 +171,13 @@ export default function HorizontalLinearStepper() {
               );
           console.log("onUploadProgress", totalLength);
           if (totalLength !== null) {
-            setProgressFiles(Math.round((progressEvent.loaded * 100) / totalLength))
+            setProgressFiles(
+              Math.round((progressEvent.loaded * 100) / totalLength)
+            );
           }
         },
       })
-      .then((result) => setProgressFiles(0))
-      .catch((err) => console.log(err));*/
+      .catch((err) => console.log(err));
   };
 
   /**
@@ -189,6 +192,8 @@ export default function HorizontalLinearStepper() {
           form.formQuestions.length === 0
           ? true
           : false;
+      default:
+        return null;
     }
   };
 
@@ -239,17 +244,21 @@ export default function HorizontalLinearStepper() {
                   padding: "50px",
                 }}
               >
-                { (progressForm === 100 && progressForm ===100) ? 
-                <h1 style={{marginBottom : '50px'}}>Form has been created</h1> :
-                <h1 style={{marginBottom : '50px'}}>Please wait...</h1>}
+                {progressForm === 100 && progressForm === 100 ? (
+                  <h1 style={{ marginBottom: "50px" }}>
+                    Form has been created
+                  </h1>
+                ) : (
+                  <h1 style={{ marginBottom: "50px" }}>Please wait...</h1>
+                )}
                 <button
                   className="btn btn-primary"
                   style={{
                     textTransform: "none",
                     backgroundColor: "none",
-                    margin : ' 0px 5px 15px 5px'
+                    margin: " 0px 5px 15px 5px",
                   }}
-                  disabled={!(progressForm === 100 && progressForm ===100)}
+                  disabled={!(progressForm === 100 && progressForm === 100)}
                 >
                   <i className="fas fa-folder-open" style={{ margin: 5 }}></i>
                   Manage existing forms
@@ -260,9 +269,9 @@ export default function HorizontalLinearStepper() {
                   style={{
                     textTransform: "none",
                     backgroundColor: "none",
-                    margin : ' 0px 5px 15px 5px'
+                    margin: " 0px 5px 15px 5px",
                   }}
-                  disabled={!(progressForm === 100 && progressForm ===100)}
+                  disabled={!(progressForm === 100 && progressForm === 100)}
                 >
                   <i className="fas fa-folder-plus" style={{ margin: 5 }}></i>
                   Create new Form

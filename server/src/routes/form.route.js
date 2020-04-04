@@ -26,7 +26,7 @@ router.delete('/',service.delete);
 
 
 router.post('/upload',upload.array('file'), (req,res,next)=>{
-    console.log(req.files)
+    res.status(200).json({message: 'images successfully saved'});
 });
 
 module.exports = router;

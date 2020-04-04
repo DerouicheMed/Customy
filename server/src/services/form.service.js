@@ -59,27 +59,12 @@ FormService.prototype.add = (req,res) => {
                     text : question.text,
                     type : question.type,
                     image : question.file,
+                    responses :question.responses,
                     form : { _id : result._id}
                 })
                 newQuestion.save((err,result) =>{
                     if(err){
                         res.send(err);
-                    }
-                    else{
-                        let responses = question.responses;
-                        if (responses !== undefined && responses.length !== 0)  responses.map( response => {
-                            let newResponse = new Response({
-                                _id :mongoose.Types.ObjectId(),
-                                text :response.text,
-                                image : response.file,
-                                question:{ _id : result._id},
-                            })
-                            newResponse.save((err,result)=>{
-                                if(err){
-                                    res.send(err);
-                                }
-                            })
-                        }) 
                     }
                 })
         
@@ -87,16 +72,6 @@ FormService.prototype.add = (req,res) => {
             res.send(result);
         }
     })
-    /*
-    let model = new Form(req.body);
-    model._id=mongoose.Types.ObjectId();
-    model.save((err,result)=>{
-        if(err){
-            res.send(err);
-        }else{
-            res.send(result);
-        }
-    })*/
 }
 
 FormService.prototype.update = (req,res) => {
