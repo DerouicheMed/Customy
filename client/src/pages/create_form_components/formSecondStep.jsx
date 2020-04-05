@@ -15,13 +15,15 @@ const FormSecondStep = () => {
    * form object later
    */
   const addQuestion = e => {
-    let questions = form.formQuestions;
-    let files = form.files;
-    let file =form.questionFile;
+
+    let questions = form.formQuestions;//questions already added
+    let files = form.files;//files already added
+    let file =form.questionFile;//file to be added
+
     if  (file !== undefined && file !== null) files.push(file);
     let question = {
       text: form.questionText,
-      file: (file ===undefined || file === null) ? '' : file.name,
+      file: (file === undefined || file === null) ? '' : file.name,
       type: form.questionType,
       responses: form.questionType === "multiple" ? form.questionResponses : []
     };
@@ -30,9 +32,13 @@ const FormSecondStep = () => {
       ...form,
       formQuestions: questions,
       questionText: "",
+      questionFileName : '',
       questionFile: null,
       questionType: "yes/no",
       questionResponses: [],
+      responseText: "",
+      responseFileName: "",
+      responseFile: null,
       files : files
     });
     console.log(form);
@@ -82,26 +88,29 @@ const FormSecondStep = () => {
    * this function edit the selected question in the form questions list
    */
   const editQuestion = () => {
-    let questions = form.formQuestions;
-    questions.forEach((element, index) => {
-      if (index === form.questionIndex) {
-        element.text = form.questionText;
-        element.file = form.questionFile;
-        element.type = form.questionType;
-        element.responses =
-          form.questionType === "multiple" ? form.questionResponses : [];
-      }
-    });
+
+    let questions = form.formQuestions;//get questions already added
+    let files =form.files//get files already added
+
+    questions[form.questionIndex] = {
+      text : form.questionText,
+      file : form.questionFileName,
+      type : form.questionType,
+      responses : (form.questionType === "multiple") ? form.questionResponses : []
+    }
+
+    if(form.questionFileName.length !== 0) files.push(form.questionFile);
+
     setForm({
       ...form,
       formQuestions: questions,
       questionText: "",
-      questionFile: "",
+      questionFileName: "",
+      questionFile : null,
       questionType: "yes/no",
       questionResponses: [],
-      questionIndex: -1
+      questionIndex: -1,
     });
-    console.log(questions);
     console.log(form);
   };
 
@@ -113,7 +122,8 @@ const FormSecondStep = () => {
     setForm({
       ...form,
       questionText: "",
-      questionFile: "",
+      questionFileName: "",
+      questionFile : null,
       questionType: "yes/no",
       questionResponses: [],
       questionIndex: -1

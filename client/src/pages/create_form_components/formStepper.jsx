@@ -128,6 +128,8 @@ export default function HorizontalLinearStepper() {
    * this function makes an api call to the server to add a new form
    */
   const addNewForm = () => {
+    console.log(form);
+    /*
     let newForm = {
       title: form.formTitle,
       description: form.formDescription,
@@ -178,6 +180,7 @@ export default function HorizontalLinearStepper() {
         },
       })
       .catch((err) => console.log(err));
+      */
   };
 
   /**

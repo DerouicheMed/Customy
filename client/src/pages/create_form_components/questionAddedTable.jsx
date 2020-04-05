@@ -11,18 +11,37 @@ const QuestionAddedTable = () => {
    * this function sets the selected question to the state value so the controlled
    * inputs get their values
    */
-  const loadQuestionToBeEdited = question => {
-     return form.formQuestions.map((element, index) => {
-      if (element.text === question.text)
+  const loadQuestionToBeEdited = (question) => {
+
+    let questions = form.formQuestions;
+    let files = form.files;
+    let file = null;
+    let fileIndex = -1;
+
+    questions.map((element, index) => {
+      if (element.text === question.text) {
+        if (files.length !== 0) {
+          files.map((element, index) => {
+            if (element.name === question.file) {
+              fileIndex = index;
+              file = element;
+            }
+          });
+          files.splice(index,1);
+        }
         setForm({
           ...form,
           questionText: question.text,
-          questionFile: question.file,
+          questionFileName: question.file,
+          questionFile : file,
           questionType: question.type,
           questionResponses: question.responses,
-          questionIndex: index
+          questionIndex: index,
+          files : files
         });
+      }
     });
+    console.log(form);
   };
 
   /**

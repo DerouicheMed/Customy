@@ -23,12 +23,15 @@ const QuestionForm = () => {
   };
 
   /**
-   * this function adds the text inputs value into the context state
+   * this function adds the file inputs value into the context state
    */
   const onFileChange = e => {
+    let file =e.target.files[0];   
+    console.log(file); 
     setForm({
       ...form,
-      [e.target.name]: e.target.files[0]
+      [e.target.name]: file,
+      [e.target.name+'Name']: (file === undefined || file === null) ? '' : file.name 
     });
   };
 
@@ -41,30 +44,34 @@ const QuestionForm = () => {
       questionType: e.target.value
     });
   };
+
   /**
    * this function joins the new added response to the response list to be added to the
    * form object later
    */
   const onAddNewResponse = e => {
+
     let responses = form.questionResponses;
     let files = form.files;
     let file =form.responseFile;
+
     if  (file !== undefined && file !== null) files.push(file);
-    console.log(file);
     let response = {
       text: form.responseText,
-      file: (file ===undefined || file === null) ? '' : file.name
+      file: form.responseFileName
     };
     responses.push(response);
     setForm({
       ...form,
       questionResponses: responses,
       responseText: "",
+      responseFileName : "",
       responseFile: null,
       files : files
     });
     e.preventDefault();
   };
+
   return (
     <>
       <div className="row">
@@ -98,7 +105,7 @@ const QuestionForm = () => {
               onClick={()=>inputFileRef.current[0].click()}
             >
               <i className="fas fa-cloud-upload-alt" style={{ margin: 5 }}></i>
-              { (form.questionFile === null || form.questionFile === undefined) ? 'Upload image' : form.questionFile.name}
+              { (form.questionFile === undefined || form.questionFile === null) ? 'Upload image' : form.questionFileName}
             </button>
           </div>
           {/********** Question type radiobox ************/}
