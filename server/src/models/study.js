@@ -5,6 +5,7 @@ const studySchema = new Schema(
   {
     _id: Schema.Types.ObjectId,
     name: String,
+    description : String
   },
   {
     timestamps: true,
