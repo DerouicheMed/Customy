@@ -6,6 +6,9 @@ const formSchema = new Schema(
     _id: Schema.Types.ObjectId,
     title: String,
     description: String,
+    publishedAt : Date,
+    expiresAt : Date,
+    allowAnonymous : Boolean,
     study: { type: Schema.Types.ObjectId, ref: "Study" },
   },
   {

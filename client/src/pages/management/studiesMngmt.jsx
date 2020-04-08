@@ -1,18 +1,21 @@
-import React from "react";
+import React,{useEffect} from "react";
 import MaterialTable from "material-table";
 import axios from "axios";
 import { ManagementContext as Context } from "../../contexts/managementContext";
-import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 const StudiesMngmt = () => {
-  const [studies, setStudies] = React.useContext(Context);
+
+  const [management, setManagement] = React.useContext(Context);
   const ServerURL = process.env.REACT_APP_SERVER_URL ;
+  const history = useHistory();
 
   useEffect(() => {
+    console.log(management.forms);
     axios
       .get(ServerURL+"/study")
       .then(({ data }) => {
-        setStudies({
+        setManagement({
           studies: data,
         });
       })
@@ -25,7 +28,6 @@ const StudiesMngmt = () => {
   const getColumns = () => {
     return [
       { title: "Name", field: "name" },
-      { title: "Description", field: "description" },
       { title: "Created At", field: "createdAt", editable: "never" },
       { title: "Last Updated", field: "updatedAt", editable: "never" },
     ];
@@ -40,10 +42,10 @@ const StudiesMngmt = () => {
     return await axios
       .post(ServerURL+"/study", study)
       .then(({ data }) => {
-        let prevStudies = studies.studies;
+        let prevStudies = management.studies;
         prevStudies.push(data);
-        setStudies({
-          ...studies,
+        setManagement({
+          ...management,
           studies: prevStudies,
         });
       })
@@ -55,13 +57,14 @@ const StudiesMngmt = () => {
    * to update in database and updates it in the table displayed
    */
   const updateStudy = async (newStudy, oldStudy) => {
+    console.log(newStudy._id)
     return await axios
       .put(ServerURL+"/study", newStudy)
       .then(({ data }) => {
-        setStudies((prevStudies) => {
-          const studies = [...prevStudies.studies];
+        setManagement((prevManagement) => {
+          const studies = [...prevManagement.studies];
           studies[studies.indexOf(oldStudy)] = data;
-          return { ...prevStudies, studies: studies };
+          return { ...prevManagement, studies: studies };
         });
       })
       .catch((err) => console.log(err));
@@ -72,18 +75,23 @@ const StudiesMngmt = () => {
    * study from database and filters it from the table displayed
    */
   const deleteStudy = async (study) => {
+    console.log(study)
     return await axios
-      .delete(ServerURL+"/study", study)
+      .delete(ServerURL+"/study", {params: { id: study._id }})
       .then(({ data }) => {
-        let prevStudies = studies.studies;
+        let prevStudies = management.studies;
         prevStudies = prevStudies.filter((element) => element._id !== data._id);
-        setStudies({
-          ...studies,
+        setManagement({
+          ...management,
           studies: prevStudies,
         });
       })
       .catch((err) => console.log(err));
   };
+
+  const fetchForms =(studyId) =>{         
+    history.push("/management/forms?id="+studyId);
+  }
 
   return (
     <div className="row">
@@ -92,21 +100,19 @@ const StudiesMngmt = () => {
           title="Studies List"
           columns={getColumns()}
           options={{ pageSize: 10 }}
-          data={studies.studies}
+          data={management.studies}
           actions={[
             {
               icon: "folderOpenOutlined",
               tooltip: "Browse forms",
-              onClick: (event, rowData) => {
-                console.log(rowData);
-              },
+              onClick: (event, rowData) => fetchForms(rowData._id)
             },
           ]}
           editable={{
             onRowAdd: (newData) => addNewStudy(newData),
             onRowUpdate: (newData, oldData) => updateStudy(newData, oldData),
             onRowDelete: (oldData) => deleteStudy(oldData),
-          }}
+          }}          
         />
       </div>
     </div>

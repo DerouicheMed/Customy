@@ -58,6 +58,7 @@ export default function HorizontalLinearStepper() {
   const steps = getSteps();
   const [progressForm, setProgressForm] = React.useState(0);
   const [progressFiles, setProgressFiles] = React.useState(0);
+  const ServerURL = process.env.REACT_APP_SERVER_URL ;
 
   const isStepOptional = (step) => {
     /**
@@ -128,8 +129,7 @@ export default function HorizontalLinearStepper() {
    * this function makes an api call to the server to add a new form
    */
   const addNewForm = () => {
-    console.log(form);
-    /*
+    
     let newForm = {
       title: form.formTitle,
       description: form.formDescription,
@@ -143,7 +143,7 @@ export default function HorizontalLinearStepper() {
 
     //this will send the form
     axios
-      .post("http://localhost:5000/api/form", newForm, {
+      .post(ServerURL+"/form", newForm, {
         onUploadProgress: (progressEvent) => {
           const totalLength = progressEvent.lengthComputable
             ? progressEvent.total
@@ -163,7 +163,7 @@ export default function HorizontalLinearStepper() {
 
     //this will send the files
     axios
-      .post("http://localhost:5000/api/form/upload", formData, {
+      .post(ServerURL+"/form/upload", formData, {
         onUploadProgress: (progressEvent) => {
           const totalLength = progressEvent.lengthComputable
             ? progressEvent.total
@@ -180,7 +180,7 @@ export default function HorizontalLinearStepper() {
         },
       })
       .catch((err) => console.log(err));
-      */
+      
   };
 
   /**

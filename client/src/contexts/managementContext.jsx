@@ -3,15 +3,17 @@ import React, { useState} from 'react';
 export const ManagementContext = React.createContext();
 
 export const ManagementProvider = (props) => {
-  const [studies, setStudies] = useState(
-    {
-      study : {},
-      studies : []
+  const [management, setManagement] = useState(
+    {     
+      study : {}, 
+      studies : [],
+      forms : [],
+      selectedDate : new Date()
     }
 
   )
   return (  
-    <ManagementContext.Provider value={[studies,setStudies]}>
+    <ManagementContext.Provider value={[management, setManagement]}>
         {props.children}
       </ManagementContext.Provider>
   );

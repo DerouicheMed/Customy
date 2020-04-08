@@ -1,11 +1,22 @@
-import React from 'react';
-import './App.css';
-import '../node_modules/@fortawesome/fontawesome-free/css//all.min.css'; 
-import ManagementLayout from './pages/form_management/managementLayout'
+import React from "react";
+import "./App.css";
+import "../node_modules/@fortawesome/fontawesome-free/css//all.min.css";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import ManagementLayout from "./pages/management/managementLayout";
+import CreateFormLayout from "./pages/create_form_components/createFormLayout";
 
 function App() {
   return (
-    <ManagementLayout/>
+    <Router>
+      <Switch>
+        <Route  path="/management">
+          <ManagementLayout />
+        </Route>
+        <Route exact path="/form/new">
+          <CreateFormLayout/>
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 
