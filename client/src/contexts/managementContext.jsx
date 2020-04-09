@@ -8,7 +8,8 @@ export const ManagementProvider = (props) => {
       study : {}, 
       studies : [],
       forms : [],
-      selectedDate : new Date()
+      selectedDate : new Date(),
+      groups : []
     }
 
   )

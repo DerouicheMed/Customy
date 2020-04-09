@@ -9,11 +9,17 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
+import {ManagementContext as Context} from '../../contexts/managementContext';
+import { useEffect } from 'react';
+import axios from 'axios'
+
+const ServerURL=process.env.REACT_APP_SERVER_URL
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
+    margin: theme.spacing(1),
     minWidth: 120,
-    width : '100%'
+    width: '100%',
   },
   chips: {
     display: 'flex',
@@ -38,10 +44,7 @@ const MenuProps = {
   },
 };
 
-const names = [
-  { _id : 1, name : 'group 1'},
-  { _id : 2, name : 'group 2'},
-  { _id : 3, name : 'group 3'}
+let names = [
 ];
 
 function getStyles(name, personName, theme) {
@@ -53,55 +56,57 @@ function getStyles(name, personName, theme) {
   };
 }
 
-export default function SelectUser() {
+export default function SelectGroups() {
   const classes = useStyles();
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
+  const [management,setManagement]=React.useContext(Context);
+
+  useEffect(() => {    
+    axios
+      .get(ServerURL+"/group")
+      .then(({ data }) => {
+        names=data;
+        console.log(names);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   const handleChange = (event) => {
-    setPersonName(event.target.value);
-    console.log(personName);
-  };
-
-  const handleChangeMultiple = (event) => {
-    const { options } = event.target;
-    const value = [];
-    for (let i = 0, l = options.length; i < l; i += 1) {
-      if (options[i].selected) {
-        value.push(options[i].value);
-      }
-    }
-    setPersonName(value);
+    setPersonName(event.target.value);    
+    setManagement({
+      ...management,
+      groups : event.target.value
+    })
   };
 
   return (
-    <>
+    <div>
       <FormControl className={classes.formControl}>
         <Select
           labelId="demo-mutiple-chip-label"
           id="demo-mutiple-chip"
           multiple
-          style={{width : '100%'}}
           value={personName}
           onChange={handleChange}
           input={<Input id="select-multiple-chip" />}
           renderValue={(selected) => (
             <div className={classes.chips}>
               {selected.map((value) => (
-                <Chip key={value} label={value} className={classes.chip} />
+                <Chip key={value._id} label={value.name} className={classes.chip} />
               ))}
             </div>
           )}
           MenuProps={MenuProps}
         >
           {names.map((name) => (
-            <MenuItem key={name.name} value={name}>
-            <Checkbox checked={personName.indexOf(name) > -1} />
-            <ListItemText primary={name.name} />
-          </MenuItem>
+            <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+              <Checkbox checked={personName.indexOf(name) > -1} />
+              <ListItemText primary={name.name} />
+            </MenuItem>
           ))}
         </Select>
       </FormControl>
-    </>
+    </div>
   );
 }

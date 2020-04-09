@@ -28,7 +28,6 @@ StudyService.prototype.getById = (req,res) => {
 
 StudyService.prototype.add = (req,res) => {
     let obj = req.body;
-    console.log(obj);
     let model = new Study(obj);
     model._id=mongoose.Types.ObjectId();
     model.save((err,result)=>{

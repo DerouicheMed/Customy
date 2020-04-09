@@ -12,7 +12,7 @@ const FormDetailsPanel = ({ form }) => {
     }
   }
   return (
-    <div className="row">
+    <div className="row" style={{padding : 10}}>
       <div className="offset-md-2 col-md-8 offset-md-2">
         <h4>{form.title}</h4>
         <h6>

@@ -75,7 +75,7 @@ const FormsMngmt = ({ id }) => {
               icon: "panorama",
               tooltip: "Preview",
               onClick: (event, rowData) => {
-                
+                window.open('/form/new?id='+rowData._id);
               },
             },
             {
