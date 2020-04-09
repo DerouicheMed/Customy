@@ -96,6 +96,22 @@ FormService.prototype.delete = (req,res) => {
     })
 }
 
+FormService.prototype.publish = (req,res) => {
+    let data = req.body;
+    let form ={
+        publishedAt : new Date(),
+        expiresAt : data.expiresAt,
+        allowAnonymous : data.allowAnonymous
+    }
+    Form.findOneAndUpdate({ _id : data.formId},form,{new :true},(err,result) => {
+        if(err){
+            res.send(err);
+        }else{
+            res.send(result);
+        }
+    })
+}
+
 
 
 module.exports = FormService;

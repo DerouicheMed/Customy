@@ -23,6 +23,7 @@ router.get('/getbystudy',service.getByStudy);
 router.get('/:id',service.getById);
 router.put('/',service.update);
 router.delete('/',service.delete);
+router.post('/publish',service.publish);
 
 
 router.post('/upload',upload.array('file'), (req,res,next)=>{

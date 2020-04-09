@@ -3,6 +3,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import DatePicker from "./datePicker";
 import SelectGroups from "./selectGroups";
+import axios from 'axios';
 
 import { ManagementContext as Context } from "../../contexts/managementContext";
 
@@ -12,6 +13,7 @@ const PublishModal = () => {
     expires: true,
     allowAnonymous: false,
   });
+  const ServerURL = process.env.REACT_APP_SERVER_URL ;
 
   /**
    * this function fires each time a checkbox is checked/unchecked
@@ -29,18 +31,23 @@ const PublishModal = () => {
 
   const isReadyToPublish = () => {
     if (checkbox.expires && ! checkExpirationDate() ) return false;
-    else if ( management.groups.length === 0) return false;
+    else if ( management.groups === undefined || management.groups.length === 0) return false;
     else return true;
   }
 
   const publishForm = () => {
     let data = {
+      formId : management.selectedForm._id,
       expiresAt: checkbox.expires ? management.selectedDate : null,
       allowAnonymous: checkbox.allowAnonymous,
       groups: management.groups,
     };
+    
+    axios.post(ServerURL+'/form/publish',data)
+    .then( result => console.log(result))
+    .catch( err => console.log(err))
     //console.log("form")
-    console.log(isReadyToPublish());
+    console.log(data);
   };
 
   return (
