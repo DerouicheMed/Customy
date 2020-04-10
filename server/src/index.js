@@ -13,6 +13,7 @@ const path = process.env.APP_ROOT;
 app.use(cors());
 app.use(express.json());
 app.use(path, routes);
+app.use('/templates',express.static(__dirname+'/../templates'))
 
 const uri = process.env.MONGO_URI;
 mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true }

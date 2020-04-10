@@ -2,7 +2,25 @@ const Group = require("../models/group");
 const mongoose = require("mongoose");
 const User = require("../models/user");
 
-class GroupService {}
+class GroupService {
+
+  findById = async (id) => {    
+    let users = [];
+    let group = await Group.findById(id).catch((err)=>{ return err});  
+    group = await this.getUsers(group).catch(err =>{ return err});
+    return(group);
+  };
+
+  getUsers = async (group) => {
+    let users = []; 
+    for (let userId in group.users) {
+      users.push(await User.findById(group.users[userId]).catch((err)=>console.log(err)));
+    }
+    group.users = users;
+    return (group);
+  };
+
+}
 
 GroupService.prototype.getAll = (req, res) => {
   Group.find({}, (err, result) => {
@@ -14,16 +32,7 @@ GroupService.prototype.getAll = (req, res) => {
   });
 };
 
-GroupService.prototype.getById = async (req, res) => {
-  let id = req.params.id;
-  let users = [];
-  let group = await Group.findById(id).catch((err)=> res.status('404').send('Group was not found'));  
-  for (let userId in group.users) {
-    users.push(await User.findById(group.users[userId]).catch((err)=>console.log(err)));
-  }
-  group.users = users;
-  res.send(group);
-};
+
 
 GroupService.prototype.add = (req, res) => {
   let obj = req.body;

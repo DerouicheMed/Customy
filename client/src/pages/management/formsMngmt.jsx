@@ -84,7 +84,13 @@ const FormsMngmt = ({ id }) => {
               onClick: (event, rowData) => {
                 //this sets the selected from in context to the form on which 
                 //the user clicked
-                setManagement({...management,selectedForm : rowData})
+                setManagement({
+                  ...management,
+                  selectedForm : rowData,
+                  publishState : 'ready',
+                  groups : [],
+                  
+                })
                 modalButtonRef.current[0].click(event, rowData)
               },
             },

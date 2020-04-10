@@ -21,9 +21,21 @@ router.post('/',service.add);
 router.get('/',service.getAll);
 router.get('/getbystudy',service.getByStudy);
 router.get('/:id',service.getById);
-router.put('/',service.update);
 router.delete('/',service.delete);
-router.post('/publish',service.publish);
+
+
+router.put('/',async (req,res)=>{
+    let form =req.body;
+    service.update(form)
+    .then(result=> res.send(result))
+    .catch(err=>res.send(err));
+});
+
+router.post('/publish',async(req,res)=>{
+     service.publish(req.body)
+     .then(result => res.send(result))
+     .catch(err=> res.send(err));
+});
 
 
 router.post('/upload',upload.array('file'), (req,res,next)=>{

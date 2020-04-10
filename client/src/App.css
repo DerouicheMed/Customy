@@ -19,3 +19,6 @@
 .questions-table,.responses-table, .questions-table button, .responses-table button{
   font-size: 13px;
 }
+button:disabled{
+  cursor: not-allowed!important;
+}

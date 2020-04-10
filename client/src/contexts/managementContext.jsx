@@ -10,7 +10,8 @@ export const ManagementProvider = (props) => {
       forms : [],
       selectedForm : {},
       selectedDate : new Date(),
-      groups : []
+      groups : [],
+      publishState : 'published'
     }
 
   )

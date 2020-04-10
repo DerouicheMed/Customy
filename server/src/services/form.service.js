@@ -3,10 +3,37 @@ const Question = require('../models/question');
 const Response = require('../models/response');
 const Study = require('../models/study');
 const mongoose = require('mongoose');
+const MailService = require('./mail.service');
+const GroupService = require('./group.service');
 
-const QuestionService = require('./question.service');
+const mailService =new MailService();
+const groupService =new GroupService();
 
 class FormService {
+
+    update = async (form) => {
+        let id = form._id;
+        delete form._id;
+        return await Form.findOneAndUpdate({ _id : id},form,{new :true})
+        .catch(err=> console.log(err));
+    }
+
+    
+    publish = async (data) => {     
+        let groups = data.groups;
+        delete data.groups;   
+        groups.map(group => {
+            groupService.findById(group._id)
+            .then( result => {
+                result.users.map( user => {
+                    mailService.sendEmail(user);
+                })
+            })
+            .catch(err=>console.log(err));
+        })
+        return await this.update(data).catch(err=>console.log(err));
+        
+    }
 }
  
 
@@ -73,7 +100,7 @@ FormService.prototype.add = (req,res) => {
         }
     })
 }
-
+/*
 FormService.prototype.update = (req,res) => {
     let id = req.body._id;
     Form.findOneAndUpdate(id,req.body,(err,result) => {
@@ -83,7 +110,7 @@ FormService.prototype.update = (req,res) => {
             res.send(result);
         }
     })
-}
+}*/
 
 FormService.prototype.delete = (req,res) => {
     let id = req.body._id;
@@ -103,6 +130,7 @@ FormService.prototype.publish = (req,res) => {
         expiresAt : data.expiresAt,
         allowAnonymous : data.allowAnonymous
     }
+    
     Form.findOneAndUpdate({ _id : data.formId},form,{new :true},(err,result) => {
         if(err){
             res.send(err);
@@ -110,6 +138,10 @@ FormService.prototype.publish = (req,res) => {
             res.send(result);
         }
     })
+    
+   
+   
+   
 }
 
 
