@@ -1,6 +1,6 @@
-import React, { useEffect,useRef, useHistory } from "react";
+import React, { useEffect,useRef } from "react";
 import MaterialTable from "material-table";
-import { Link } from "react-router-dom";
+import { Link ,useHistory } from "react-router-dom";
 import axios from "axios";
 import { ManagementContext as Context } from "../../contexts/managementContext";
 import PublishModal from "./publishModal";
@@ -8,19 +8,23 @@ import FormDetailsPanel from "./formDetailsPanel";
 
 const FormsMngmt = ({ id }) => {
   const [title, setTitle] = React.useState('remember to load the study name ');
+  const [loading,setLoading]=React.useState(false);
   const [management, setManagement] = React.useContext(Context);
   const ServerURL = process.env.REACT_APP_SERVER_URL;
 
   const modalButtonRef= useRef([]);
+  const history = useHistory();
 
   useEffect(() => {
+    setLoading(true);
     axios
-      .get(ServerURL + "/form")
+      .get(ServerURL + "/form/getbystudy/"+id)
       .then(({ data }) => {
         setManagement({
           ...management,
           forms: data,
         });
+        setLoading(false);
       })
       .catch((err) => console.log(err));
     management.studies.map((element) => {
@@ -68,9 +72,15 @@ const FormsMngmt = ({ id }) => {
         <MaterialTable
           title={title}
           columns={getColumns()}
-          options={{ pageSize: 10 }}
           data={management.forms}
+          isLoading={loading}
           actions={[
+            {
+              icon: 'add',
+              tooltip: 'Add Form',
+              isFreeAction: true,
+              onClick: (event) => history.push("/form/new?id="+id)
+            },
             {
               icon: "panorama",
               tooltip: "Preview",
@@ -78,9 +88,10 @@ const FormsMngmt = ({ id }) => {
                 window.open('/form/new?id='+rowData._id);
               },
             },
-            {
+            rowData=>({
               icon: "send",
-              tooltip: "Publish",
+              tooltip: (rowData.publishedAt !== undefined && rowData.publishedAt !== null) ? "Already Published" : "Publish",
+              disabled : rowData.publishedAt !== undefined && rowData.publishedAt !== null,
               onClick: (event, rowData) => {
                 //this sets the selected from in context to the form on which 
                 //the user clicked
@@ -93,7 +104,7 @@ const FormsMngmt = ({ id }) => {
                 })
                 modalButtonRef.current[0].click(event, rowData)
               },
-            },
+            })
           ]}
           editable={{
             onRowDelete: (oldData) => deleteForm(oldData),
@@ -108,7 +119,10 @@ const FormsMngmt = ({ id }) => {
               },
             }
           ]}
-          onRowClick={(event, rowData, togglePanel) => togglePanel()}
+          options={{
+            pageSize: 10 ,
+            actionsColumnIndex: -1
+          }}
         />
         <button
           data-toggle="modal"

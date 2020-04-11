@@ -6,6 +6,7 @@ import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import { useLocation } from 'react-router-dom'
 
 import axios from "axios";
 import { CreateFormContext as Context } from "../../contexts/createFormContext";
@@ -58,6 +59,7 @@ export default function HorizontalLinearStepper() {
   const steps = getSteps();
   const [progressForm, setProgressForm] = React.useState(0);
   const [progressFiles, setProgressFiles] = React.useState(0);
+  let location = useLocation();
   const ServerURL = process.env.REACT_APP_SERVER_URL ;
 
   const isStepOptional = (step) => {
@@ -128,14 +130,16 @@ export default function HorizontalLinearStepper() {
   /**
    * this function makes an api call to the server to add a new form
    */
-  const addNewForm = () => {
-    
+  const addNewForm = () => {    
+    //this gets the study id from the query param
+    const params = new URLSearchParams(location.search);
     let newForm = {
       title: form.formTitle,
+      study : {_id : params.get('id')},
       description: form.formDescription,
       questions: form.formQuestions,
     };
-
+    console.log(newForm);
     let formData = new FormData();
     form.files.map((file) => {
       formData.append("file", file);

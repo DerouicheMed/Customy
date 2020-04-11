@@ -16,7 +16,7 @@ const FormDetailsPanel = ({ form }) => {
       <div className="offset-md-2 col-md-8 offset-md-2">
         <h4>{form.title}</h4>
         <h6>
-          {form.description.length !== 0
+          { form.description !== undefined && form.description.length !== 0
             ? form.description
             : "No description for this form"}
         </h6>

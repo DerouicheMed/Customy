@@ -7,17 +7,19 @@ import { useHistory } from "react-router-dom";
 const StudiesMngmt = () => {
 
   const [management, setManagement] = React.useContext(Context);
+  const [loading,setLoading]=React.useState(false);
   const ServerURL = process.env.REACT_APP_SERVER_URL ;
   const history = useHistory();
 
   useEffect(() => {
-    console.log(management.forms);
+    setLoading(true);
     axios
       .get(ServerURL+"/study")
       .then(({ data }) => {
         setManagement({
           studies: data,
         });
+        setLoading(false);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -99,8 +101,8 @@ const StudiesMngmt = () => {
         <MaterialTable
           title="Studies List"
           columns={getColumns()}
-          options={{ pageSize: 10 }}
           data={management.studies}
+          isLoading={loading}
           actions={[
             {
               icon: "folderOpenOutlined",
@@ -112,7 +114,11 @@ const StudiesMngmt = () => {
             onRowAdd: (newData) => addNewStudy(newData),
             onRowUpdate: (newData, oldData) => updateStudy(newData, oldData),
             onRowDelete: (oldData) => deleteStudy(oldData),
-          }}          
+          }}  
+          options={{
+            pageSize: 10,
+            actionsColumnIndex: -1
+          }}        
         />
       </div>
     </div>

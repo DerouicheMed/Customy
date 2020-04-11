@@ -19,7 +19,7 @@ const service = new FormService();
 
 router.post('/',service.add);
 router.get('/',service.getAll);
-router.get('/getbystudy',service.getByStudy);
+
 router.get('/:id',service.getById);
 router.delete('/',service.delete);
 
@@ -31,10 +31,24 @@ router.put('/',async (req,res)=>{
     .catch(err=>res.send(err));
 });
 
+router.get('/getbystudy/:id', (req,res)=>{
+    let studyId = req.params.id;
+    console.log(studyId);
+    service.getByStudy(studyId)
+    .then(result=>res.send(result))
+    .catch(err=>{
+        console.log(err);
+        res.status('500').send();
+    })
+});
+
 router.post('/publish',async(req,res)=>{
      service.publish(req.body)
      .then(result => res.send(result))
-     .catch(err=> res.send(err));
+     .catch(err=> {
+        console.log(err);
+        res.status('500').send();
+     });
 });
 
 

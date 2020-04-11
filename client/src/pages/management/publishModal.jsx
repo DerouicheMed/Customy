@@ -23,6 +23,10 @@ const PublishModal = () => {
     setCheckbox({ ...checkbox, [event.target.name]: event.target.checked });
   };
 
+  /**
+   * this function checks if the expiration date is valid
+   * the date selected by the user must be at least 24h ahead
+   */
   const checkExpirationDate = () => {
     let date = management.selectedDate;
     let nowDate = new Date();
@@ -31,6 +35,10 @@ const PublishModal = () => {
       : nowDate.getTime() < date.getTime() - 86400000;
   };
 
+  /**
+   * this function checks if the form is ready to be published by checking
+   * if the expiration date is valid and there is a group of users selected 
+   */
   const isReadyToPublish = () => {
     if (checkbox.expires && !checkExpirationDate()) return false;
     else if (management.groups === undefined || management.groups.length === 0)
@@ -38,6 +46,10 @@ const PublishModal = () => {
     else return true;
   };
 
+  /**
+   * this function renders the correct publish button depending on the state
+   * ready for publishing, being published, successfully published or error
+   */
   const renderPublishButton = () => {
     switch (management.publishState) {
       case "ready":
@@ -80,8 +92,13 @@ const PublishModal = () => {
         return "Unknown Error !";
     }
   };
-
+  
+  /**
+   * this function sends a request to the server containing the form 
+   *  parameters and the group of users to email  
+   */
   const publishForm = () => {
+    setManagement({...management,publishState : "publishing"});    
     let data = {
       _id: management.selectedForm._id,
       publishedAt: new Date(),
@@ -89,12 +106,14 @@ const PublishModal = () => {
       allowAnonymous: checkbox.allowAnonymous,
       groups: management.groups,
     };
-
+    let forms=management.forms;
     axios
       .post(ServerURL + "/form/publish", data)
-      .then((result) => console.log(result))
+      .then((result) => {
+        forms[forms.indexOf(management.selectedForm)]=result.data;
+        setManagement({...management,publishState : "published",forms : forms })
+      })
       .catch((err) => console.log(err));
-    console.log(data);
   };
 
   return (
