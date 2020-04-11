@@ -3,7 +3,6 @@ import React, { useContext } from "react";
 import { CreateFormContext as Context } from "../../contexts/createFormContext";
 
 const FormThirStep = () => {
-
   const [form, setForm] = useContext(Context);
 
   /**
@@ -44,16 +43,21 @@ const FormThirStep = () => {
               <div className="card-body">
                 {/** question title **/}
                 <h5 className="card-title">{question.text}</h5>
-                {/**if question has a file a msg will be displayed  */
-                question.file !== undefined && question.file.length !== 0 && (
-                  <React.Fragment>
-                    <i className="fas fa-image"></i> <small>contains image</small>
-                  </React.Fragment>
-                )}
+                {
+                  /**if question has a file a msg will be displayed  */
+                  question.file !== undefined && question.file.length !== 0 && (
+                    <React.Fragment>
+                      <i className="fas fa-image"></i>{" "}
+                      <small>contains image</small>
+                    </React.Fragment>
+                  )
+                }
               </div>
               <ul className="list-group list-group-flush">
-                {//responses will be loaded here
-                setQuestionResponsesPreview(question)}
+                {
+                  //responses will be loaded here
+                  setQuestionResponsesPreview(question)
+                }
               </ul>
             </div>
           </div>
@@ -68,7 +72,7 @@ const FormThirStep = () => {
    * the responses list and list all the responses
    * @param {*} question this question is passed from the form's question list
    */
-  const setQuestionResponsesPreview = question => {
+  const setQuestionResponsesPreview = (question) => {
     switch (question.type) {
       case "yes/no":
         return (
@@ -91,12 +95,15 @@ const FormThirStep = () => {
         return question.responses.map((response, index) => {
           return (
             <li key={index} className="list-group-item">
-              <small>{response.text}</small> <br/>
-              {/**if response has a file a msg will be displayed  */
+              <small>{response.text}</small> <br />
+              {
+                /**if response has a file a msg will be displayed  */
                 response.file !== undefined && response.file.length !== 0 && (
-                  
-                     <small><i className="fas fa-image"></i></small>
-                )}
+                  <small>
+                    <i className="fas fa-image"></i>
+                  </small>
+                )
+              }
             </li>
           );
         });

@@ -1,15 +1,16 @@
 const Form = require("../models/form");
 const Question = require("../models/question");
-const Response = require("../models/response");
-const Study = require("../models/study");
 const mongoose = require("mongoose");
 const MailService = require("./mail.service");
 const GroupService = require("./group.service");
+const QuestionService = require("./question.service");
 
 const mailService = new MailService();
 const groupService = new GroupService();
+const questionService = new QuestionService();
 
 class FormService {
+
   update = async (form) => {
     let id = form._id;
     delete form._id;
@@ -34,6 +35,11 @@ class FormService {
 
   getByStudy = async (studyId) => {
     return await Form.find({ study: { _id: studyId } });
+  };
+
+  delete = async (id) => {
+    await Form.findOneAndDelete(id);
+    await questionService.deleteByForm(id);
   };
 }
 
@@ -91,15 +97,6 @@ FormService.prototype.add = (req, res) => {
   });
 };
 
-FormService.prototype.delete = (req, res) => {
-  let id = req.body._id;
-  Form.findOneAndDelete(id, (err, result) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(result);
-    }
-  });
-};
+
 
 module.exports = FormService;

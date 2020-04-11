@@ -51,10 +51,10 @@ const FormsMngmt = ({ id }) => {
    */
   const deleteForm = async (form) => {
     return await axios
-      .delete(ServerURL + "/form", form)
-      .then(({ data }) => {
+      .delete(ServerURL + "/form?id="+form._id)
+      .then(() => {
         let prevForms = management.forms;
-        prevForms = prevForms.filter((element) => element._id !== data._id);
+        prevForms = prevForms.filter((element) => element._id !== form._id);
         setManagement({
           ...management,
           forms: prevForms,

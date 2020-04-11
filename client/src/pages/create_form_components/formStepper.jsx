@@ -6,8 +6,7 @@ import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import { useLocation } from 'react-router-dom'
-
+import { useLocation, Link } from 'react-router-dom'
 import axios from "axios";
 import { CreateFormContext as Context } from "../../contexts/createFormContext";
 
@@ -139,7 +138,6 @@ export default function HorizontalLinearStepper() {
       description: form.formDescription,
       questions: form.formQuestions,
     };
-    console.log(newForm);
     let formData = new FormData();
     form.files.map((file) => {
       formData.append("file", file);
@@ -258,7 +256,8 @@ export default function HorizontalLinearStepper() {
                 ) : (
                   <h1 style={{ marginBottom: "50px" }}>Please wait...</h1>
                 )}
-                <button
+                <Link
+                  to="/management/studies"
                   className="btn btn-primary"
                   style={{
                     textTransform: "none",
@@ -268,8 +267,8 @@ export default function HorizontalLinearStepper() {
                   disabled={!(progressForm === 100 && progressForm === 100)}
                 >
                   <i className="fas fa-folder-open" style={{ margin: 5 }}></i>
-                  Manage existing forms
-                </button>
+                  Management
+                </Link>
                 <button
                   className="btn btn-outline-secondary"
                   onClick={handleReset}

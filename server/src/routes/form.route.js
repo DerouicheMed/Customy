@@ -21,10 +21,18 @@ router.post('/',service.add);
 router.get('/',service.getAll);
 
 router.get('/:id',service.getById);
-router.delete('/',service.delete);
 
+router.delete('/',(req,res)=>{
+    let id = req.query.id;
+    service.delete(id)
+    .then(()=>res.send())
+    .catch(err=>{
+        console.log(err);
+        res.status('500').send();
+    })
+});
 
-router.put('/',async (req,res)=>{
+router.put('/', (req,res)=>{
     let form =req.body;
     service.update(form)
     .then(result=> res.send(result))
@@ -42,7 +50,7 @@ router.get('/getbystudy/:id', (req,res)=>{
     })
 });
 
-router.post('/publish',async(req,res)=>{
+router.post('/publish',(req,res)=>{
      service.publish(req.body)
      .then(result => res.send(result))
      .catch(err=> {

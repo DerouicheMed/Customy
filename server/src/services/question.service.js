@@ -3,6 +3,10 @@ const Form = require('../models/form');
 const mongoose = require('mongoose');
 
 class QuestionService {
+    
+    deleteByForm = async (id)=>{
+        return await Question.findOneAndDelete({form : {_id : id}});
+    }
 }
  
 
