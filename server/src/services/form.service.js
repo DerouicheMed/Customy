@@ -94,12 +94,13 @@ FormService.prototype.add = (req, res) => {
 
 FormService.prototype.edit = (req, res) => {
   console.log("im in edit");
+  console.log(req.body);
   //get form id
   let formId = req.body._id;
   //check again if form id is not null
   if (formId !== undefined && formId !== null) {
     //create form object to be passed to mongoose
-    let newForm = new Form({
+    let form = new Form({
       title: req.body.title,
       description: req.body.description,
       study: req.body.study,
@@ -107,7 +108,7 @@ FormService.prototype.edit = (req, res) => {
     //get the form questions seperatly 
     let questions = req.body.questions;
     //update the existing form
-    Form.findOneAndUpdate({ _id: id }, form, { new: true }, (err, result) => {
+    Form.findOneAndUpdate({ _id: formId }, form, { new: true }, (err, result) => {
       if (err) {
         res.send(err);
       } else {
@@ -125,7 +126,7 @@ FormService.prototype.edit = (req, res) => {
                   type: question.type,
                   file: question.file,
                   responses: question.responses,
-                  form: { _id: result._id },
+                  form: { _id: formId },
                 });
                 newQuestion.save((err, result) => {
                   if (err) {
@@ -133,7 +134,7 @@ FormService.prototype.edit = (req, res) => {
                   }
                 });
               });
-            res.send(result);
+            else res.send(result);
           }
         });
       }

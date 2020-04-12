@@ -164,7 +164,7 @@ export default function HorizontalLinearStepper() {
       formData.append("file", file);
     });
 
-    let requestUrl = (params.get('form') !== undefined || params.get('form') !== null) ? '/form/new' : '/form/edit'
+    let requestUrl = (params.get('form') === undefined || params.get('form') === null) ? '/form/new' : '/form/edit'
     //this will send the form
     axios
       .post(ServerURL+requestUrl, newForm, {
