@@ -15,6 +15,9 @@ function App() {
         <Route exact path="/form/new">
           <CreateFormLayout/>
         </Route>
+        <Route exact path="/form/edit">
+          <CreateFormLayout/>
+        </Route>
       </Switch>
     </Router>
   );

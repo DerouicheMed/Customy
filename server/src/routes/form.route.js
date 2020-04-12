@@ -2,7 +2,6 @@ const express = require('express');
 const FormService = require('../services/form.service');
 
 const multer  = require('multer')
-
 const storage = multer.diskStorage({
     destination : function(req,file,cb){
         cb(null, '../uploads/');
@@ -11,19 +10,26 @@ const storage = multer.diskStorage({
         cb(null,file.originalname);
     }
 })
-
 const upload = multer({ storage : storage })
-
 const router = express.Router();
 const service = new FormService();
 
-router.post('/',service.add);
+router.post('/new',service.add);
+router.post('/edit',service.edit);
 router.get('/',service.getAll);
 
-router.get('/:id',service.getById);
+router.get('/:id',(req,res)=>{
+    let id =req.params.id
+    service.getById(id)
+    .then(result=>res.send(result))
+    .catch(err=>{
+        console.log(err)
+        res.status('500').send(err);
+    })
+});
 
-router.delete('/',(req,res)=>{
-    let id = req.query.id;
+router.delete('/:id',(req,res)=>{
+    let id = req.params.id;
     service.delete(id)
     .then(()=>res.send())
     .catch(err=>{

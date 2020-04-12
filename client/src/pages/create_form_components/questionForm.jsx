@@ -105,7 +105,7 @@ const QuestionForm = () => {
               onClick={()=>inputFileRef.current[0].click()}
             >
               <i className="fas fa-cloud-upload-alt" style={{ margin: 5 }}></i>
-              { (form.questionFile === undefined || form.questionFile === null) ? 'Upload image' : form.questionFileName}
+              { (form.questionFileName === undefined || form.questionFileName.length === 0) ? 'Upload image' : form.questionFileName}
             </button>
           </div>
           {/********** Question type radiobox ************/}

@@ -13,6 +13,7 @@ import { CreateFormContext as Context } from "../../contexts/createFormContext";
 import FormFirstStep from "./formFirstStep";
 import FormSecondStep from "./formSecondStep";
 import FormThirdStep from "./formThirdStep";
+import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,6 +61,25 @@ export default function HorizontalLinearStepper() {
   const [progressFiles, setProgressFiles] = React.useState(0);
   let location = useLocation();
   const ServerURL = process.env.REACT_APP_SERVER_URL ;
+  const params = new URLSearchParams(location.search);
+
+
+
+  useEffect(()=>{
+    
+    let formId = params.get('form')
+    if(formId !==undefined && formId !==null ){
+      axios.get(ServerURL+'/form/'+formId)
+      .then(({data})=>{
+        setForm({
+          ...form,
+          formTitle: data.title,
+          formDescription: data.description,
+          formQuestions: data.questions,
+        })
+      })
+    }
+  },[])
 
   const isStepOptional = (step) => {
     /**
@@ -133,6 +153,7 @@ export default function HorizontalLinearStepper() {
     //this gets the study id from the query param
     const params = new URLSearchParams(location.search);
     let newForm = {
+      _id : params.get('form'),
       title: form.formTitle,
       study : {_id : params.get('id')},
       description: form.formDescription,
@@ -143,9 +164,10 @@ export default function HorizontalLinearStepper() {
       formData.append("file", file);
     });
 
+    let requestUrl = (params.get('form') !== undefined || params.get('form') !== null) ? '/form/new' : '/form/edit'
     //this will send the form
     axios
-      .post(ServerURL+"/form", newForm, {
+      .post(ServerURL+requestUrl, newForm, {
         onUploadProgress: (progressEvent) => {
           const totalLength = progressEvent.lengthComputable
             ? progressEvent.total

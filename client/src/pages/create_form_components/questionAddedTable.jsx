@@ -77,8 +77,7 @@ const QuestionAddedTable = () => {
               <th scope="col">Question header</th>
               <th scope="col">File</th>
               <th scope="col">Type</th>
-              <th>Edit</th>
-              <th>Delete</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -87,21 +86,21 @@ const QuestionAddedTable = () => {
                 <tr key={Math.random()}>
                   <td>#</td>
                   <td>{question.text}</td>
-                  <td>{question.file.length === 0 ? 0 : 1}</td>
+                  <td>{(question.file === undefined || question.file.length === 0)? 0 : 1}</td>
                   <td>{question.type}</td>
                   <td>
                     <button
                       type="button"
                       className="btn btn-warning"
+                      style={{margin : '0 2px'}}
                       onClick={() => loadQuestionToBeEdited(question)}
                     >
                       <i className="fas fa-edit" style={{ color: "white" }}></i>
                     </button>
-                  </td>
-                  <td>
                     <button
                       type="button"
                       className="btn btn-danger"
+                      style={{margin : '0 2px'}}
                       onClick={() => deleteQuestion(question)}
                     >
                       <i className="fas fa-trash-alt"></i>

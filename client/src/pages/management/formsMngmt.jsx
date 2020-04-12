@@ -51,7 +51,7 @@ const FormsMngmt = ({ id }) => {
    */
   const deleteForm = async (form) => {
     return await axios
-      .delete(ServerURL + "/form?id="+form._id)
+      .delete(ServerURL + "/form/"+form._id)
       .then(() => {
         let prevForms = management.forms;
         prevForms = prevForms.filter((element) => element._id !== form._id);
@@ -87,7 +87,8 @@ const FormsMngmt = ({ id }) => {
               onClick: (event, rowData) => {
                 window.open('/form/new?id='+rowData._id);
               },
-            },
+              
+            },            
             rowData=>({
               icon: "send",
               tooltip: (rowData.publishedAt !== undefined && rowData.publishedAt !== null) ? "Already Published" : "Publish",
@@ -104,6 +105,21 @@ const FormsMngmt = ({ id }) => {
                 })
                 modalButtonRef.current[0].click(event, rowData)
               },
+              
+            }),
+            rowData=>({
+              icon: "edit",
+              tooltip: (rowData.publishedAt !== undefined && rowData.publishedAt !== null) ? "Can't Edit after publishing" : "Edit",
+              disabled : rowData.publishedAt !== undefined && rowData.publishedAt !== null,
+              onClick: (event, rowData) => {
+                let studyId= rowData.study
+                let formId=rowData._id;
+                history.push({
+                  pathname: '/form/edit',
+                  search: '?id='+studyId+'&form='+formId
+                });
+              },
+              
             })
           ]}
           editable={{

@@ -10,6 +10,7 @@ const formSchema = new Schema(
     expiresAt : Date,
     allowAnonymous : Boolean,
     study: { type: Schema.Types.ObjectId, ref: "Study" },
+    questions : []
   },
   {
     timestamps: true,

@@ -109,6 +109,11 @@ const StudiesMngmt = () => {
               tooltip: "Browse forms",
               onClick: (event, rowData) => fetchForms(rowData._id)
             },
+            {
+              icon: "assessment",
+              tooltip: "Statistics",
+              onClick: (event, rowData) => history.push('/statistics?id='+rowData._id)
+            },
           ]}
           editable={{
             onRowAdd: (newData) => addNewStudy(newData),

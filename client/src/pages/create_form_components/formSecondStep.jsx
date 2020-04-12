@@ -20,14 +20,18 @@ const FormSecondStep = () => {
     let files = form.files;//files already added
     let file =form.questionFile;//file to be added
 
+    //if file is empty dont add to the list of files
     if  (file !== undefined && file !== null) files.push(file);
+
     let question = {
       text: form.questionText,
-      file: (file === undefined || file === null) ? '' : file.name,
+      file: form.questionFileName,
       type: form.questionType,
       responses: form.questionType === "multiple" ? form.questionResponses : []
     };
+
     questions.push(question);
+
     setForm({
       ...form,
       formQuestions: questions,
@@ -41,7 +45,6 @@ const FormSecondStep = () => {
       responseFile: null,
       files : files
     });
-    console.log(form);
     e.preventDefault();
   };
 
@@ -99,7 +102,7 @@ const FormSecondStep = () => {
       responses : (form.questionType === "multiple") ? form.questionResponses : []
     }
 
-    if(form.questionFileName.length !== 0) files.push(form.questionFile);
+    if(form.questionFile !== undefined && form.questionFile !== null) files.push(form.questionFile);
 
     setForm({
       ...form,
