@@ -93,8 +93,6 @@ FormService.prototype.add = (req, res) => {
 };
 
 FormService.prototype.edit = (req, res) => {
-  console.log("im in edit");
-  console.log(req.body);
   //get form id
   let formId = req.body._id;
   //check again if form id is not null

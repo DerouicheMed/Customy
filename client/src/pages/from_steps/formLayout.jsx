@@ -6,7 +6,7 @@ class CreateForm extends Component {
   render() {
     return (
       <Provider>
-        <div className="container">
+        <div className="container" style={{background : 'white'}}>
           <FormStepper />
         </div>
       </Provider>

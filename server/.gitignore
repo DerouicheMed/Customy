@@ -14,7 +14,7 @@
 /uploads
 
 #envirement variables
-.env
+*.env
 
 # profiling files
 chrome-profiler-events.json

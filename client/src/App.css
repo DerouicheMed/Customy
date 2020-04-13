@@ -22,3 +22,15 @@
 button:disabled{
   cursor: not-allowed!important;
 }
+/****main.jsx****/
+.topbar,.page-wrapper{
+  background-color: white;
+}
+.logo-min {
+  max-width: 40px!important;
+}
+@media(min-width : 1168px ){
+  .logo-min{
+    display: none!important;
+  }
+}

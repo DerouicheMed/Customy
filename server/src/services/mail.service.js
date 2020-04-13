@@ -29,7 +29,7 @@ class MailService {
             subject : 'This is a test',
             template : 'publish_email',
             context :{
-                url : 'https://localhost:3000/management/studies'
+                url : 'localhost:3000/management/studies'
             }
         }
     
