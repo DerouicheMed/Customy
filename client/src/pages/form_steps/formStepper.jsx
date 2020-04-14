@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { useLocation, Link } from 'react-router-dom'
 import axios from "axios";
-import { CreateFormContext as Context } from "../../contexts/createFormContext";
+import { FormContext as Context } from "../../contexts/formContext";
 
 import FormFirstStep from "./formFirstStep";
 import FormSecondStep from "./formSecondStep";
@@ -291,19 +291,6 @@ export default function HorizontalLinearStepper() {
                   <i className="fas fa-folder-open" style={{ margin: 5 }}></i>
                   Management
                 </Link>
-                <button
-                  className="btn btn-outline-secondary"
-                  onClick={handleReset}
-                  style={{
-                    textTransform: "none",
-                    backgroundColor: "none",
-                    margin: " 0px 5px 15px 5px",
-                  }}
-                  disabled={!(progressForm === 100 && progressForm === 100)}
-                >
-                  <i className="fas fa-folder-plus" style={{ margin: 5 }}></i>
-                  Create new Form
-                </button>
               </div>
             </div>
           </>

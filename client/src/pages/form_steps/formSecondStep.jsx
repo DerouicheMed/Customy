@@ -1,13 +1,10 @@
 import React, { useContext } from "react";
-import { CreateFormContext as Context } from "../../contexts/createFormContext";
-
+import { FormContext as Context } from "../../contexts/formContext";
 import QuestionForm from "./questionForm";
 import QuestionAddedTable from "./questionAddedTable";
 
 const FormSecondStep = () => {
-  /**
-   * this gets the context from creatFormContext so we can use and edit the state
-   */
+  
   const [form, setForm] = useContext(Context);
 
   /**

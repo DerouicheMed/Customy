@@ -1,9 +1,34 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
-import { CreateFormContext as Context } from "../../contexts/createFormContext";
+import { FormContext as Context } from "../../contexts/formContext";
 
 const FormThirStep = () => {
   const [form, setForm] = useContext(Context);
+  const [loading,setLoading] = React.useState(true);
+
+  const loaderWrapper = {
+    position : 'absolute',
+    top : 0,
+    left : 0,
+    width: "100%",
+    height: '100%',
+    zIndex: 20,
+    background : "white",
+    display: loading ? "block" : "none",
+  };
+
+  const loader = {
+    position : 'absolute',
+    top : '45%',
+    left  :'50%',
+  }
+
+  useEffect(()=>{
+    setTimeout(()=>{
+      setLoading(false);
+    },1000)
+  },[])
+  
 
   /**
    * this function returns the carousel indicator
@@ -111,11 +136,17 @@ const FormThirStep = () => {
   };
   return (
     <div className="row">
-      <div className="offset-md-2 col-md-8 offset-md-2">
+      <div className="offset-md-2 col-md-8 offset-md-2" style={{height : 400}}> 
+        <div style={loaderWrapper}>
+        <div class="spinner-border text-primary" style={loader}>
+          <span class="sr-only">Loading...</span>
+        </div>
+        </div>
         <div
           id="carousel-example-1z"
           className="carousel slide carousel-fade"
           data-ride="carousel"
+          display={loading}
         >
           {/******** carousel indicators *******/}
           <ol className="carousel-indicators">{setIndicators()}</ol>

@@ -1,9 +1,9 @@
-import React, { useState} from 'react';
+import React from 'react';
 
-export const CreateFormContext = React.createContext();
+export const FormContext = React.createContext();
 
-export const CreateFormProvider = (props) => {
-  const [form, setForm] = useState(
+export const FormProvider = (props) => {
+  const [form, setForm] = React.useState(
     {
       formTitle: "",
       formDescription: "",
@@ -22,8 +22,8 @@ export const CreateFormProvider = (props) => {
 
   )
   return (  
-    <CreateFormContext.Provider value={[form,setForm]}>
+    <FormContext.Provider value={[form,setForm]}>
         {props.children}
-      </CreateFormContext.Provider>
+      </FormContext.Provider>
   );
 }

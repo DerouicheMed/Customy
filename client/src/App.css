@@ -10,7 +10,8 @@
 .question-preview{
   position: absolute;
   top: 20%;
-  right: 20%;
+  left: 50%;
+  transform: 'translate(-50%,-0%)';
 }
 #questionType-buttonGroup{
   width: 50%;
